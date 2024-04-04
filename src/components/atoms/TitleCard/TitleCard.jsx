@@ -5,30 +5,45 @@ import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import {CardActionArea} from '@mui/material';
 import styles from './TitleCard.module.css';
+import {Link} from "react-router-dom";
+import {TitleMiniature} from "../../../API/model/TitleMiniature.tsx";
+import {useEffect} from "react";
 
-export default function TitleCard({imgPath, title, aspectRatio}) {
+interface TitleCardProps {
+    title: TitleMiniature;
+    aspectRatio: number;
+    titlePageUrl: string;
+}
+
+export const TitleCard: React.FC<TitleCardProps> = ({title, aspectRatio, titlePageUrl}) => {
     const width = 250;
     const height = width / aspectRatio;
-
+    useEffect(() => {
+        console.log(title);
+        console.log(titlePageUrl);
+        console.log(aspectRatio);
+    }, []);
     return (
-        <Card sx={{maxWidth: width}}>
-            <CardActionArea>
-                <CardMedia
-                    component="img"
-                    height={height}
-                    image={imgPath}
-                    alt="Постер"
-                />
-                <CardContent>
-                    <Typography
-                        gutterBottom
-                        className={styles.title}
-                        variant="h6"
-                        component="div">
-                        {title}
-                    </Typography>
-                </CardContent>
-            </CardActionArea>
-        </Card>
+        <Link to={titlePageUrl} className={styles.link}>
+            <Card sx={{maxWidth: width}}>
+                <CardActionArea>
+                    <CardMedia
+                        component="img"
+                        height={height}
+                        image={title.posterURL}
+                        alt="Постер"
+                    />
+                    <CardContent>
+                        <Typography
+                            gutterBottom
+                            className={styles.title}
+                            variant="h6"
+                            component="div">
+                            {title.name}
+                        </Typography>
+                    </CardContent>
+                </CardActionArea>
+            </Card>
+        </Link>
     );
 }

@@ -14,16 +14,12 @@ export class FetchService {
             },
             body: JSON.stringify(body)
         }).then(response => {
-            const newToken = response.headers.get('Authorization');
-            if (newToken) {
-                localStorage.setItem('authToken', newToken);
-            }
             return response;
         });
     }
 
     static async authPost(url, body = {}, headers = {}, queryParams = {}, uriParams = {}) {
-        const token = localStorage.getItem('authToken');
+        const token = localStorage.getItem('token');
         return this.post(url, body, {
             'Authorization': `Bearer ${token}`,
             ...headers
@@ -32,15 +28,9 @@ export class FetchService {
         });
     }
 
-    static async get(url, headers = {}, queryParams = {}, uriParams = {}) {
-        // Преобразование объекта queryParams в строку запроса
-        const queryString = new URLSearchParams(queryParams).toString();
+    static async get(url, headers = {}) {
 
-        // Добавление параметров URI в URL
-        Object.keys(uriParams).forEach(key => {
-            url = url.replace(`:${key}`, uriParams[key]);
-        });
-        return fetch(`${url}?${queryString}`, {
+        return fetch(`${url}`, {
             headers: {
                 'Content-Type': 'application/json',
                 ...headers
@@ -51,7 +41,7 @@ export class FetchService {
     }
 
     static async authGet(url, headers = {}, queryParams = {}, uriParams = {}) {
-        const token = localStorage.getItem('authToken');
+        const token = localStorage.getItem('token');
         return this.get(url, {
             'Authorization': `Bearer ${token}`,
             ...headers

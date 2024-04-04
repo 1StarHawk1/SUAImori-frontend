@@ -1,7 +1,9 @@
 export class TitleMiniature {
-    constructor(title, imgPath, aspectRatio, titlePageUrl) {
-        this.title = title;
-        this.imgPath = imgPath;
-        this.titlePageUrl = titlePageUrl;
+    public name: string;
+    public posterURL: string;
+    public id: number;
+
+    constructor(data: Partial<TitleMiniature>) {
+        Object.assign(this, data);
     }
 }

@@ -1,5 +1,5 @@
 import React, {useContext} from 'react';
-import {Redirect, Route, Switch} from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import {privateRoutes, publicRoutes} from "../router";
 import {AuthContext} from "../context";
 
@@ -9,31 +9,28 @@ const AppRouter = () => {
     console.log(isAuth)
 
     return (
+
         isAuth
             ?
-            <Switch>
+            <Routes>
                 {privateRoutes.map(route =>
                     <Route
-                        component={route.component}
+                        element={route.element}
                         path={route.path}
-                        exact={route.exact}
                         key={route.path}
                     />
                 )}
-                <Redirect to='/posts'/>
-            </Switch>
+            </Routes>
             :
-            <Switch>
+            <Routes>
                 {publicRoutes.map(route =>
                     <Route
-                        component={route.component}
+                        element={route.element}
                         path={route.path}
-                        exact={route.exact}
                         key={route.path}
                     />
                 )}
-                <Redirect to='/login'/>
-            </Switch>
+            </Routes>
     );
 };
 

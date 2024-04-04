@@ -1,12 +1,11 @@
-import About from "../pages/About";
-import Posts from "../pages/Posts";
-import PostIdPage from "../pages/PostIdPage";
-import Login from "../pages/Login";
-
-
+import SignIn from "../components/pages/AuthPage/SignIn";
+import SignUp from "../components/pages/AuthPage/SignUp";
+import MainPage from "../components/pages/MainPage/MainPage";
 
 export const publicRoutes = [
-    {path: '/login', component: Login, exact: true}
+    {path: '/signin', element: <SignIn />, exact: true},
+    {path: '/signup', element: <SignUp />, exact: true},
+    {path: '/', element: <MainPage />, exact: true},
 ]
 
 export const privateRoutes = [
