@@ -1,0 +1,12 @@
+.list {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 10px;
+    overflow-x: scroll;
+    /*scrollbar-width: none;*/
+}
+
+.list::-webkit-scrollbar {
+    /*display: none; !* Убираем полосу прокрутки у Chrome *!*/
+}
