@@ -1,7 +1,4 @@
 import * as React from 'react';
-import {TitleCard} from "../../atoms/TitleCard/TitleCard";
-import {TitleMiniature} from "../../../API/model/TitleMiniature.tsx";
-import {useEffect, useState} from "react";
 import {TitleService} from "../../../API/TItleService";
 import {ClubService} from "../../../API/ClubService";
 import CardList from "../../blocks/CardList/CardList";

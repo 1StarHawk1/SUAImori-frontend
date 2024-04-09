@@ -5,13 +5,11 @@ import {AuthContext} from "../context";
 
 
 const AppRouter = () => {
-    const {isAuth} = useContext(AuthContext);
-    console.log(isAuth)
+
 
     return (
 
-        isAuth
-            ?
+        localStorage.getItem('token') ?
             <Routes>
                 {privateRoutes.map(route =>
                     <Route
