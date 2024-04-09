@@ -3,7 +3,10 @@ import {TitleCard} from "../../atoms/TitleCard/TitleCard";
 import {TitleMiniature} from "../../../API/model/TitleMiniature.tsx";
 import {useEffect, useState} from "react";
 import {TitleService} from "../../../API/TItleService";
-import TitleList from "../../blocks/TitleList/TitleList";
+import {ClubService} from "../../../API/ClubService";
+import CardList from "../../blocks/CardList/CardList";
+import {ClubCard} from "../../atoms/ClubCard/ClubCard";
+import {TitleCard} from "../../atoms/TitleCard/TitleCard";
 
 const MainPage = () => {
 
@@ -44,24 +47,52 @@ const MainPage = () => {
         }
     }
 
+    const getClubIDs = async () => {
+        try {
+            const response = await ClubService.getAllIDs();
+            return response.json();
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
+    const getClub = async (id) => {
+        try {
+            const response = await ClubService.getClub(id, ["name", "imageURL"]);
+            return response.json();
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
     return (
         <>
             <h3>Аниме</h3>
-            <TitleList
-                getTitleIDs={getAnimeIDs}
-                getTitle={getAnime}
+            <CardList
+                getIDs={getAnimeIDs}
+                getItem={getAnime}
+                renderCard={(item) => <TitleCard title={item} aspectRatio={3 / 4} titlePageUrl={"/signin"} />}
             />
 
             <h3>Манга</h3>
-            <TitleList
-                getTitleIDs={getMangaIDs}
-                getTitle={getAnime}
+            <CardList
+                getIDs={getMangaIDs}
+                getItem={getAnime}
+                renderCard={(item) => <TitleCard title={item} aspectRatio={3 / 4} titlePageUrl={"/signin"} />}
             />
 
             <h3>Сейчас на экранах</h3>
-            <TitleList
-                getTitleIDs={getOngoingIDs}
-                getTitle={getAnime}
+            <CardList
+                getIDs={getOngoingIDs}
+                getItem={getAnime}
+                renderCard={(item) => <TitleCard title={item} aspectRatio={3 / 4} titlePageUrl={"/signin"} />}
+            />
+
+            <h3>Популярные сообщества</h3>
+            <CardList
+                getIDs={getClubIDs}
+                getItem={getClub}
+                renderCard={(item) => <ClubCard club={item} aspectRatio={3 / 3} clubPageUrl={"/signin"} />}
             />
         </>
     );
