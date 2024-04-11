@@ -16,7 +16,7 @@ interface TitleCardProps {
 }
 
 export const TitleCard: React.FC<TitleCardProps> = ({title, aspectRatio, titlePageUrl}) => {
-    const width = 250;
+    const width = 240;
     const height = width / aspectRatio;
     useEffect(() => {
         console.log(title);

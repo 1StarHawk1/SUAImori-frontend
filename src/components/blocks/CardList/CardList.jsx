@@ -56,14 +56,16 @@ const CardList = ({getIDs, getItem, renderCard}) => {
     }
 
     return (
-        <Grid container spacing={2} ref={listRef} className={styles.list}>
-            {items.map((item, index) => (
-                <Grid item>
-                    {renderCard(item)}
+        <div className={styles.list} ref={listRef}>
+            {items.map((title, index) => (
+                <Grid>
+                    {renderCard(title)}
                 </Grid>
             ))}
-        </Grid>
-    );
+        </div>
+
+)
+    ;
 };
 
 export default CardList;

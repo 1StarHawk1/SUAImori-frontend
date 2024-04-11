@@ -4,9 +4,13 @@ import {ClubService} from "../../../API/ClubService";
 import CardList from "../../blocks/CardList/CardList";
 import {ClubCard} from "../../atoms/ClubCard/ClubCard";
 import {TitleCard} from "../../atoms/TitleCard/TitleCard";
+import MenuBar from "../../blocks/MenuBar/MenuBar";
+import styles from './MainPage.module.css';
+import {useState} from "react";
+import NavBar from "../../blocks/NavBar/NavBar";
 
 const MainPage = () => {
-
+    const [isOpen, setIsOpen] = useState(true);
 
     const getAnimeIDs = async () => {
         try {
@@ -64,33 +68,47 @@ const MainPage = () => {
 
     return (
         <>
-            <h3>Аниме</h3>
-            <CardList
-                getIDs={getAnimeIDs}
-                getItem={getAnime}
-                renderCard={(item) => <TitleCard title={item} aspectRatio={3 / 4} titlePageUrl={"/signin"} />}
-            />
 
-            <h3>Манга</h3>
-            <CardList
-                getIDs={getMangaIDs}
-                getItem={getAnime}
-                renderCard={(item) => <TitleCard title={item} aspectRatio={3 / 4} titlePageUrl={"/signin"} />}
-            />
+            <div className={styles.mainpage}>
+            <div className={styles.menubar}><MenuBar/></div>
+                <div className={`${styles.content} ${isOpen ? styles.open : ''}`}>
+                    <div className={styles.navbar}><NavBar/></div>
+                    <div className={styles.list}>
+                        <div className={styles.categoryTitle}>Аниме</div>
+                        <CardList
+                            getIDs={getAnimeIDs}
+                            getItem={getAnime}
+                            renderCard={(item) => <TitleCard title={item} aspectRatio={3 / 4}
+                                                             titlePageUrl={"/signin"}/>}
+                        />
 
-            <h3>Сейчас на экранах</h3>
-            <CardList
-                getIDs={getOngoingIDs}
-                getItem={getAnime}
-                renderCard={(item) => <TitleCard title={item} aspectRatio={3 / 4} titlePageUrl={"/signin"} />}
-            />
+                        <div className={styles.categoryTitle}>Манга</div>
+                        <CardList
+                            getIDs={getMangaIDs}
+                            getItem={getAnime}
+                            renderCard={(item) => <TitleCard title={item} aspectRatio={3 / 4}
+                                                             titlePageUrl={"/signin"}/>}
+                        />
 
-            <h3>Популярные сообщества</h3>
-            <CardList
-                getIDs={getClubIDs}
-                getItem={getClub}
-                renderCard={(item) => <ClubCard club={item} aspectRatio={3 / 3} clubPageUrl={"/signin"} />}
-            />
+                        <div className={styles.categoryTitle}>Сейчас на экранах</div>
+                        <CardList
+                            getIDs={getOngoingIDs}
+                            getItem={getAnime}
+                            renderCard={(item) => <TitleCard title={item} aspectRatio={3 / 4}
+                                                             titlePageUrl={"/signin"}/>}
+                        />
+
+                        <div className={styles.categoryTitle}>Популярные сообщества</div>
+                        <CardList
+                            getIDs={getClubIDs}
+                            getItem={getClub}
+                            renderCard={(item) => <ClubCard club={item} aspectRatio={3 / 3} clubPageUrl={"/signin"}/>}
+                        />
+                    </div>
+
+                </div>
+            </div>
+
         </>
     );
 };
