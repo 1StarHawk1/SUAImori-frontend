@@ -2,6 +2,7 @@ import React from 'react';
 import {AuthContext} from "./context";
 import {BrowserRouter} from "react-router-dom";
 import AppRouter from "./components/AppRouter";
+import "./styles/App.css"
 
 const App = () => {
     return (
