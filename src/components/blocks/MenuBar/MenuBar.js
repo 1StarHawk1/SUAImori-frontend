@@ -9,9 +9,10 @@ import {jwtDecode} from 'jwt-decode';
 
 const MenuBar = () => {
     const [isOpen, setIsOpen] = useState(true);
-
+    const token = localStorage.getItem("token");
+    const decodedToken = token ? jwtDecode(token) : null;
     const isTokenExpired = (token) => {
-        if(!token){
+        if (!token) {
             return true;
         }
         const decodedToken = jwtDecode(token);
@@ -22,14 +23,14 @@ const MenuBar = () => {
     return (
         <div className={`${styles.menubar} ${isOpen ? styles.open : ''}`}>
             <Box display="flex" justifyContent="center" alignItems="center" height="70px">
-                <Avatar alt={jwtDecode(localStorage.getItem("token")).sub} src="/static/images/avatar/1.jpg"
-                        onClick={() => console.log('Avatar clicked')}/>
-            </Box>
+                <Avatar alt={decodedToken ? decodedToken.sub : 'User'} src="/static/images/avatar/1.jpg"
+                        onClick={() => console.log('Avatar clicked')}/> </Box>
             <List className={styles.MuiList}>
                 <ListItem className={styles.MuiListItem}>
-                    <Link className={styles.MuiLink} to={isTokenExpired(localStorage.getItem("token")) ? "/signin" : "/profile"}>
-                        <Button className={styles.MuiButton} variant="contained">Профиль</Button>
-                    </Link>
+                    <Button className={styles.MuiButton} variant="contained" onClick={() => {
+                        const path = isTokenExpired(token) ? "/signin" : "/profile/" + (decodedToken ? decodedToken.sub.toString() : '');
+                        window.location.href = path;
+                    }}>Профиль</Button>
                 </ListItem>
                 <ListItem className={styles.MuiListItem}>
                     <Link className={styles.MuiLink} to={"/"}>
@@ -49,7 +50,7 @@ const MenuBar = () => {
                             onClick={() => console.log('Button 5 clicked')}>Button 5</Button>
                 </ListItem>
                 <ListItem className={styles.MuiListItem}>
-                    <Button className={styles.MuiButton} variant="contained" >Button 6</Button>
+                    <Button className={styles.MuiButton} variant="contained">Button 6</Button>
                 </ListItem>
             </List>
         </div>

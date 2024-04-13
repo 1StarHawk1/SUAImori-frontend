@@ -7,7 +7,7 @@ export const publicRoutes = [
     {path: '/signin', element: <SignIn />, exact: true},
     {path: '/signup', element: <SignUp />, exact: true},
     {path: '/', element: <MainPage />, exact: true},
-    {path: '/profile', element: <ProfilePage />, exact: true},
+    {path: '/profile/:username?', element: <ProfilePage />, exact: true},
 ]
 
 export const privateRoutes = [
