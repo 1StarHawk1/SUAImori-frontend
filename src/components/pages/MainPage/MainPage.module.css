@@ -36,6 +36,10 @@ html{
 
 .content {
     flex-grow: 1;
-    margin:0;
-    height: 100%;
+    height: calc(100vh - 70px);
+}
+
+.navbar{
+    height: 70px;
+    background: gray;
 }

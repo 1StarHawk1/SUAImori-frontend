@@ -71,6 +71,7 @@ const MainPage = () => {
 
             <div className={styles.mainpage}>
                 <div className={styles.menubar}><MenuBar/></div>
+
                 <div className={`${styles.content} ${isOpen ? styles.open : ''}`}>
                     <div className={styles.navbar}><NavBar/></div>
                     <div className={styles.list}>
@@ -79,7 +80,7 @@ const MainPage = () => {
                             getIDs={getAnimeIDs}
                             getItem={getAnime}
                             renderCard={(item) => <TitleCard title={item} aspectRatio={3 / 4}
-                                                             titlePageUrl={"/signin"}/>}
+                                                             titlePageUrl={`/title/${item.id}`}/>}
                         />
 
                         <div className={styles.categoryTitle}>Манга</div>
@@ -87,7 +88,7 @@ const MainPage = () => {
                             getIDs={getMangaIDs}
                             getItem={getAnime}
                             renderCard={(item) => <TitleCard title={item} aspectRatio={3 / 4}
-                                                             titlePageUrl={"/signin"}/>}
+                                                             titlePageUrl={`/title/${item.id}`}/>}
                         />
 
                         <div className={styles.categoryTitle}>Сейчас на экранах</div>
@@ -99,10 +100,11 @@ const MainPage = () => {
                         />
 
                         <div className={styles.categoryTitle}>Популярные сообщества</div>
-                        <CardList
-                            getIDs={getClubIDs}
-                            getItem={getClub}
-                            renderCard={(item) => <ClubCard club={item} aspectRatio={3 / 3} clubPageUrl={"/signin"}/>}
+                        <CardList className={styles.clubList}
+                                  getIDs={getClubIDs}
+                                  getItem={getClub}
+                                  renderCard={(item) => <ClubCard club={item} aspectRatio={3 / 3}
+                                                                  clubPageUrl={"/signin"}/>}
                         />
                     </div>
 

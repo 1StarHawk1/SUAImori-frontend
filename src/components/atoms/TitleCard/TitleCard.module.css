@@ -2,10 +2,16 @@
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
-    -webkit-line-clamp: 2; /* number of lines to show */
+    -webkit-line-clamp: 1; /* number of lines to show */
     -webkit-box-orient: vertical;
+    height: 45px;
+
 }
 
 .link {
     text-decoration: none;
+}
+
+.smallFont {
+    font-size: 0.95rem !important; /* Уменьшите размер шрифта по своему усмотрению */
 }

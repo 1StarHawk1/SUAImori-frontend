@@ -16,7 +16,7 @@ interface TitleCardProps {
 }
 
 export const TitleCard: React.FC<TitleCardProps> = ({title, aspectRatio, titlePageUrl}) => {
-    const width = 240;
+    const width = 200;
     const height = width / aspectRatio;
     useEffect(() => {
         console.log(title);
@@ -33,10 +33,10 @@ export const TitleCard: React.FC<TitleCardProps> = ({title, aspectRatio, titlePa
                         image={title.posterURL}
                         alt="Постер"
                     />
-                    <CardContent>
+                    <CardContent sx={{ paddingBottom: 0.5, paddingTop: 0.8 }}>
                         <Typography
                             gutterBottom
-                            className={styles.title}
+                            className={`${styles.title} ${styles.smallFont}`}
                             variant="h6"
                             component="div">
                             {title.name}

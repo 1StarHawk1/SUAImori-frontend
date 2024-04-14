@@ -7,7 +7,20 @@ import {TitleService} from "../../../API/TitleService";
 import {useParams} from "react-router-dom";
 import {Title} from '../../../API/model/Title.tsx';
 import Button from "@mui/material/Button";
-import {Dialog, DialogActions, DialogContent, DialogTitle, Modal} from "@mui/material";
+import {
+    Alert,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogTitle,
+    FormControl,
+    Modal,
+    Radio,
+    RadioGroup, Snackbar
+} from "@mui/material";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import {ListService} from "../../../API/ListService";
+import {jwtDecode} from "jwt-decode";
 
 const TitlePage = () => {
     const [isLoading, setIsLoading] = useState(true);
@@ -15,20 +28,57 @@ const TitlePage = () => {
     const [title: Title, setTitle] = useState(null);
     const token = localStorage.getItem('token');
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const decodedToken = token ? jwtDecode(token) : null;
 
     const {id} = useParams();
 
+    const [userLists, setUserLists] = useState([]);
+
+
+    const getLists = async () => {
+        try {
+            const data = await ListService.getUserLists(decodedToken.sub);
+            setUserLists(data);
+            console.log(data);
+        } catch (e) {
+            console.error(e);
+        }
+    };
+
+    const [selectedList, setSelectedList] = useState(null);
+
+    const handleRadioChange = (event) => {
+        setSelectedList(event.target.value);
+    };
+
     const openModal = () => {
         setIsModalOpen(true);
+        getLists();
     };
 
     const closeModal = () => {
         setIsModalOpen(false);
     };
 
+
     const addTitleToList = (list) => {
-        // Здесь добавьте логику добавления тайтла в выбранный список
+        ListService.addTitle(list, id, showError);
         closeModal();
+    };
+
+    const [snackbarOpen, setSnackbarOpen] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState('');
+
+    const showError = (message) => {
+        setSnackbarMessage(message);
+        setSnackbarOpen(true);
+    };
+
+    const handleCloseSnackbar = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setSnackbarOpen(false);
     };
 
     useEffect(() => {
@@ -79,35 +129,63 @@ const TitlePage = () => {
                                 <h4>NSFW: {title.isNSFW ? 'Да' : 'Нет'}</h4>
 
                             </div>
-                            <div className={styles.buttons}>
-                                {token && (
-                                    <>
-                                        <Button variant="contained" onClick={openModal}>Добавить в список</Button><br/><br/>
-                                        <Dialog
-                                            open={isModalOpen}
-                                            onClose={closeModal}
-                                        >
-                                            <DialogTitle>Выберите список</DialogTitle>
-                                            <DialogContent>
-                                                {/* Здесь отобразите списки пользователя */}
-                                            </DialogContent>
-                                            <DialogActions>
-                                                <Button onClick={() => addTitleToList(/* выбранный список */)}>Добавить</Button>
-                                                <Button onClick={closeModal}>Отмена</Button>
-                                            </DialogActions>
-                                        </Dialog>
-                                        {/* ... */}
-                                    </>
-                                )}
-                            </div>
+
+                        </div>
+                        <div className={styles.buttons}>
+                            {token && (
+                                <>
+                                    <Button style={{width : '300px'}} variant="contained" onClick={openModal}>Добавить в список</Button><br/><br/>
+                                    <Dialog
+                                        open={isModalOpen}
+                                        onClose={closeModal}
+                                    >
+                                        <DialogTitle>Выберите список</DialogTitle>
+                                        <DialogContent>
+                                            <FormControl component="fieldset">
+                                                <RadioGroup
+                                                    aria-label="user-lists"
+                                                    value={selectedList}
+                                                    onChange={handleRadioChange}
+                                                >
+                                                    {userLists && userLists.map((list) => (
+                                                        <FormControlLabel
+                                                            key={list.id}
+                                                            value={list.id}
+                                                            control={<Radio />}
+                                                            label={list.name}
+                                                        />
+                                                    ))}
+                                                </RadioGroup>
+                                            </FormControl>
+                                        </DialogContent>
+                                        <DialogActions>
+                                            <Button
+                                                onClick={() => addTitleToList(selectedList)}>Добавить</Button>
+                                            <Button onClick={closeModal}>Отмена</Button>
+                                        </DialogActions>
+                                    </Dialog>
+                                    {/* ... */}
+                                </>
+                            )}
                         </div>
                         <div className={styles.description}>
                             <h2>Описание</h2>
                             <p>{title.description}</p>
                         </div>
+
                     </div>
                 </div>
             </div>
+            <Snackbar
+                open={snackbarOpen}
+                autoHideDuration={6000}
+                onClose={handleCloseSnackbar}
+                anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+            >
+                <Alert onClose={handleCloseSnackbar} severity="error" sx={{ width: '100%' }}>
+                    {snackbarMessage}
+                </Alert>
+            </Snackbar>
         </div>
     )
         ;

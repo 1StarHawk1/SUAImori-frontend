@@ -16,7 +16,7 @@ interface ClubCardProps {
 }
 
 export const ClubCard: React.FC<ClubCardProps> = ({club, aspectRatio, clubPageUrl}) => {
-    const width = 250;
+    const width = 200;
     const height = width / aspectRatio;
     useEffect(() => {
         console.log(club);
@@ -33,10 +33,10 @@ export const ClubCard: React.FC<ClubCardProps> = ({club, aspectRatio, clubPageUr
                         image={club.imageURL}
                         alt="Постер"
                     />
-                    <CardContent>
+                    <CardContent sx={{ paddingBottom: 0.5, paddingTop: 0.8 }}>
                         <Typography
                             gutterBottom
-                            className={styles.title}
+                            className={`${styles.title} ${styles.smallFont}`}
                             variant="h6"
                             component="div">
                             {club.name}
