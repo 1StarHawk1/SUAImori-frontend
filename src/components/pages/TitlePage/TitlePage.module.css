@@ -1,22 +1,3 @@
-.pageBody {
-    display: flex;
-    flex-direction: row;
-    height: 100vh;
-    overflow-y: hidden;
-}
-
-.menubar {
-    width:200px;
-    height: 100vh;
-}
-
-.page {
-    flex-grow: 1;
-    margin-left: 20px;
-    margin-right: 20px;
-    height: 100%;
-}
-
 .titlepage {
     display: flex;
     flex-direction: row;

@@ -3,6 +3,7 @@ import MenuBar from "../../blocks/MenuBar/MenuBar";
 import Avatar from "@mui/material/Avatar";
 import {Link, useParams} from "react-router-dom";
 import styles from './ProfilePage.module.css';
+import commonStyles from '../../../styles/commonStyles.module.css';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import {TitleService} from "../../../API/TitleService";
@@ -56,8 +57,8 @@ const getLists = async () => {
     }
 
     return (
-        <div className={styles.pageBody}>
-            <div className={styles.menubar}><MenuBar/></div>
+        <div className={commonStyles.pageBody}>
+            <div className={commonStyles.menubar}><MenuBar/></div>
             <div className={styles.page}>
                 <div className={styles.banner}>
                     <img src={user.profileWallpaperURL} alt="Banner"/>

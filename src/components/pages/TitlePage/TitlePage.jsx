@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import styles from "./TitlePage.module.css";
+import commonStyles from '../../../styles/commonStyles.module.css';
 import MenuBar from "../../blocks/MenuBar/MenuBar";
 import NavBar from "../../blocks/NavBar/NavBar";
 import {UserService} from "../../../API/UserService";
@@ -104,14 +105,14 @@ const TitlePage = () => {
     return (
         <div>
             <div className={styles.titlepage}>
-                <div className={styles.menubar}>
+                <div className={commonStyles.menubar}>
                     <MenuBar/>
                 </div>
                 <div className={`${styles.content} ${isOpen ? styles.open : ''}`}>
-                    <div className={styles.navbar}>
+                    <div>
                         <NavBar/>
                     </div>
-                    <div className={styles.page}>
+                    <div className={commonStyles.page}>
                         <div className={styles.header}>
                             <img src={title.posterURL} alt={title.name} className={styles.poster}/>
                             <div>
