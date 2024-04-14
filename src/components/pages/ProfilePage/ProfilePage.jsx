@@ -9,19 +9,34 @@ import {TitleService} from "../../../API/TitleService";
 import {jwtDecode} from "jwt-decode";
 import {User} from '../../../API/model/User.tsx';
 import {UserService} from "../../../API/UserService";
+import {ListService} from "../../../API/ListService";
+import {List} from "../../../API/model/List.tsx";
 
 const ProfilePage = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [user: User, setUser] = useState(null);
+    const [lists: List[], setLists] = useState([]);
     const token = localStorage.getItem("token");
     const decodedToken = token ? jwtDecode(token) : null;
     const [content, setContent] = useState('description');
 
+
     const {username} = useParams();
+    const isCurrentUser = decodedToken && decodedToken.sub === username;
 
     useEffect(() => {
         getUser().then(() => setIsLoading(false));
     }, []);
+
+const getLists = async () => {
+    try {
+        const data = await ListService.getUserLists(username);
+        setLists(data);
+        console.log(data);
+    } catch (e) {
+        console.error(e);
+    }
+};
 
     const getUser = async () => {
         try {
@@ -29,6 +44,7 @@ const ProfilePage = () => {
             const data = await response.json();
             setUser(data);
             console.log(data);
+            await getLists();
             setIsLoading(false);
         } catch (e) {
             console.error(e);
@@ -69,7 +85,19 @@ const ProfilePage = () => {
                     </ButtonGroup>
                     <div className={styles.description}>
                         {content === 'description' && <div className={styles.description}>{user.description}</div>}
-                        {content === 'lists' && <div>Здесь будет информация о списках</div>}
+                        {content === 'lists' && <div>
+                            {lists && lists.map((list) => (
+                                <div key={list.id}>
+                                    <Link className={styles.listlink} to={`/list/${list.id}`}>
+                                        <h3>{list.name}</h3>
+                                    </Link>
+                                </div>
+                            ))}
+                            {isCurrentUser && (
+                                <Link to={'/add-list'}>
+                                    <Button variant="outlined">Добавить список</Button>
+                                </Link>
+                            )}</div>}
                         {content === 'friends' && <div>Здесь будет информация о друзьях</div>}
                         {content === 'clubs' && <div>Здесь будет информация о клубах</div>}</div>
                 </div>
