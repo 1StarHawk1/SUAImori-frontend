@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {TitleService} from "../../../API/TItleService";
+import {TitleService} from "../../../API/TitleService";
 import {ClubService} from "../../../API/ClubService";
 import CardList from "../../blocks/CardList/CardList";
 import {ClubCard} from "../../atoms/ClubCard/ClubCard";
@@ -70,7 +70,7 @@ const MainPage = () => {
         <>
 
             <div className={styles.mainpage}>
-            <div className={styles.menubar}><MenuBar/></div>
+                <div className={styles.menubar}><MenuBar/></div>
                 <div className={`${styles.content} ${isOpen ? styles.open : ''}`}>
                     <div className={styles.navbar}><NavBar/></div>
                     <div className={styles.list}>

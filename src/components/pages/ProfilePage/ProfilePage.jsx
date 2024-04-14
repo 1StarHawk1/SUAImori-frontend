@@ -1,21 +1,20 @@
 import React, {useEffect, useState} from 'react';
-import NavBar from "../../blocks/NavBar/NavBar";
 import MenuBar from "../../blocks/MenuBar/MenuBar";
 import Avatar from "@mui/material/Avatar";
 import {Link, useParams} from "react-router-dom";
 import styles from './ProfilePage.module.css';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
-import {TitleService} from "../../../API/TItleService";
+import {TitleService} from "../../../API/TitleService";
 import {jwtDecode} from "jwt-decode";
-import { User } from '../../../API/model/User.tsx';
+import {User} from '../../../API/model/User.tsx';
 import {UserService} from "../../../API/UserService";
 
 const ProfilePage = () => {
     const [isLoading, setIsLoading] = useState(true);
-    const [user : User, setUser] = useState(null);
+    const [user: User, setUser] = useState(null);
     const token = localStorage.getItem("token");
-const decodedToken = token ? jwtDecode(token) : null;
+    const decodedToken = token ? jwtDecode(token) : null;
     const [content, setContent] = useState('description');
 
     const {username} = useParams();
@@ -45,7 +44,6 @@ const decodedToken = token ? jwtDecode(token) : null;
             <div className={styles.menubar}><MenuBar/></div>
             <div className={styles.page}>
                 <div className={styles.banner}>
-                    {/* Здесь вы можете добавить обои */}
                     <img src={user.profileWallpaperURL} alt="Banner"/>
                 </div>
                 <div className={styles.content}>
@@ -59,20 +57,12 @@ const decodedToken = token ? jwtDecode(token) : null;
                         <h2>{user.nickname}</h2>
                         <h3>{user.username}</h3>
                     </div>
-                    <ButtonGroup size="large" aria-label="Large button group" variant="contained" aria-label="Basic button group">
+                    <ButtonGroup size="large" aria-label="Large button group" variant="contained"
+                                 aria-label="Basic button group">
                         <Button onClick={() => setContent('description')}>Описание</Button>
                         <Button onClick={() => setContent('lists')}>Списки</Button>
                         <Button onClick={() => setContent('friends')}>Друзья</Button>
                         <Button onClick={() => setContent('clubs')}>Клубы</Button>
-                        {/*<Link to={'/lists'}>*/}
-                        {/*    <Button>Списки</Button>*/}
-                        {/*</Link>*/}
-                        {/*<Link to={'/friends'}>*/}
-                        {/*    <Button>Друзья</Button>*/}
-                        {/*</Link>*/}
-                        {/*<Link to={'/clubs'}>*/}
-                        {/*    <Button>Клубы</Button>*/}
-                        {/*</Link>*/}
                         <Link to={'/settings'}>
                             <Button>Настройки</Button>
                         </Link>

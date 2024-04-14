@@ -2,6 +2,7 @@ import {FetchService} from "./FetchService";
 import {serverApi} from "./Api";
 
 export class TitleService {
+
     static async getTitle(id, fieldList: string[]) {
         const queryFieldsParams = fieldList.map(field => `fields=${field}`).join('&');
 

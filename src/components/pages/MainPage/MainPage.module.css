@@ -1,12 +1,6 @@
 html{
-    background: #fad7dd;
+    background: #cecece;
     max-height: 100vh !important;
-}
-
-.navbar {
-    height: 70px;
-    background: gray;
-
 }
 
 .mainpage {

@@ -1,0 +1,54 @@
+.pageBody {
+    display: flex;
+    flex-direction: row;
+    height: 100vh;
+    overflow-y: hidden;
+}
+
+.menubar {
+    width:200px;
+    height: 100vh;
+}
+
+.page {
+    flex-grow: 1;
+    margin-left: 20px;
+    margin-right: 20px;
+    height: 100%;
+}
+
+.titlepage {
+    display: flex;
+    flex-direction: row;
+    padding: 0;
+    margin: 0;
+    height: 100vh;
+    overflow-y: hidden;
+}
+
+.content {
+    flex-grow: 1;
+    margin:0;
+    height: 100%;
+
+}
+
+.poster{
+    margin-right:10px;
+    width:300px;
+}
+
+.header {
+    margin-top: 20px;
+    display: flex;
+    align-items: flex-start;
+}
+
+/*.description{*/
+/*    margin-left:50px;*/
+/*}*/
+
+.buttons{
+    margin-top:20px;
+    margin-left: 20px;
+}
