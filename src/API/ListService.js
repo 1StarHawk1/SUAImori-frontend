@@ -27,4 +27,24 @@ export class ListService{
             showError("Ошибка добавления. Возможно, тайтл уже добавлен в список");
         }
     }
+
+    static async getTitles(listId){
+        const response = await FetchService.get(`${serverApi}/list/gettitles/${listId}`)
+        if(response.status === 200){
+            return response;
+        }
+        else{
+            throw new Error("getTitles Error!");
+        }
+    }
+
+    static async getList(listId){
+        const response = await FetchService.get(`${serverApi}/list/${listId}`)
+        if(response.status === 200){
+            return response;
+        }
+        else{
+            throw new Error("getList Error!");
+        }
+    }
 }
