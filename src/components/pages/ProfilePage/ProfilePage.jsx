@@ -92,7 +92,7 @@ const ProfilePage = () => {
                                  aria-label="Basic button group">
                         <Button style={{backgroundColor: '#7A8B99', borderColor: '#393E41'}} onClick={() => setContent('description')}>Описание</Button>
                         <Button style={{backgroundColor: '#7A8B99', borderColor: '#393E41'}} onClick={() => setContent('lists')}>Списки</Button>
-                        <Button style={{backgroundColor: '#7A8B99', borderColor: '#393E41'}} onClick={() => setContent('friends')}>Друзья</Button>
+                        {/*<Button style={{backgroundColor: '#7A8B99', borderColor: '#393E41'}} onClick={() => setContent('friends')}>Друзья</Button>*/}
                         <Button style={{backgroundColor: '#7A8B99', borderColor: '#393E41'}} onClick={() => setContent('clubs')}>Клубы</Button>
                         <Link to={'/settings'}>
                             <Button style={{backgroundColor: '#7A8B99', borderColor: '#393E41'}}> Настройки</Button>
