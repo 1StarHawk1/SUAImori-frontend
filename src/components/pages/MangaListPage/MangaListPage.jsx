@@ -2,30 +2,30 @@ import * as React from 'react';
 import {TitleService} from "../../../API/TitleService";
 import {TitleCard} from "../../atoms/TitleCard/TitleCard";
 import {useState, useEffect} from "react";
-import styles from './AnimeListPage.module.css';
+import styles from './MangaListPage.module.css';
 import commonStyles from "../../../styles/commonStyles.module.css";
 import MenuBar from "../../blocks/MenuBar/MenuBar";
 import NavBar from "../../blocks/NavBar/NavBar";
 
-const AnimeListPage = () => {
-    const [animeList, setAnimeList] = useState([]);
+const MangaListPage = () => {
+    const [mangaList, setList] = useState([]);
 
-    const fetchAnime = async () => {
+    const fetchManga = async () => {
         try {
-            const response = await TitleService.getAnimeIDs();
-            const animeIDs = await response.json();
-            const animeList = await Promise.all(animeIDs.map(async id => {
+            const response = await TitleService.getMangaIDs();
+            const mangaIDs = await response.json();
+            const mangaList = await Promise.all(mangaIDs.map(async id => {
                 const response = await TitleService.getTitle(id, ["name", "posterURL"]);
                 return response.json();
             }));
-            setAnimeList(animeList);
+            setList(mangaList);
         } catch (e) {
             console.error(e);
         }
     }
 
     useEffect(() => {
-        fetchAnime();
+        fetchManga();
     }, []);
 
     return (
@@ -39,10 +39,10 @@ const AnimeListPage = () => {
                         <NavBar/>
                     </div>
                     <div className={commonStyles.page}>
-                        <div className={styles.animeListPage}>
-                            {animeList.map(anime => (
-                                <TitleCard key={anime.id} title={anime} aspectRatio={3 / 4}
-                                           titlePageUrl={`/title/${anime.id}`}/>
+                        <div className={styles.mangaListPage}>
+                            {mangaList.map(manga => (
+                                <TitleCard key={manga.id} title={manga} aspectRatio={3 / 4}
+                                           titlePageUrl={`/title/${manga.id}`}/>
                             ))}
                         </div>
                     </div>
@@ -52,4 +52,4 @@ const AnimeListPage = () => {
     );
 }
 
-export default AnimeListPage;
+export default MangaListPage;
