@@ -31,9 +31,17 @@ const TitlePage = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const decodedToken = token ? jwtDecode(token) : null;
 
+    const [snackbarOpen, setSnackbarOpen] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState('');
+
     const {id} = useParams();
 
     const [userLists, setUserLists] = useState([]);
+    const [selectedList, setSelectedList] = useState(null);
+
+    useEffect(() => {
+        getTitle().then(() => setIsLoading(false));
+    }, []);
 
 
     const getLists = async () => {
@@ -46,7 +54,6 @@ const TitlePage = () => {
         }
     };
 
-    const [selectedList, setSelectedList] = useState(null);
 
     const handleRadioChange = (event) => {
         setSelectedList(event.target.value);
@@ -67,9 +74,6 @@ const TitlePage = () => {
         closeModal();
     };
 
-    const [snackbarOpen, setSnackbarOpen] = useState(false);
-    const [snackbarMessage, setSnackbarMessage] = useState('');
-
     const showError = (message) => {
         setSnackbarMessage(message);
         setSnackbarOpen(true);
@@ -82,9 +86,6 @@ const TitlePage = () => {
         setSnackbarOpen(false);
     };
 
-    useEffect(() => {
-        getTitle().then(() => setIsLoading(false));
-    }, []);
 
     const getTitle = async () => {
         try {

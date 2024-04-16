@@ -4,6 +4,7 @@ import MainPage from "../components/pages/MainPage/MainPage";
 import ProfilePage from "../components/pages/ProfilePage/ProfilePage";
 import TitlePage from "../components/pages/TitlePage/TitlePage";
 import ListPage from "../components/pages/ListPage/ListPage";
+import ClubPage from "../components/pages/ClubPage/ClubPage";
 
 export const publicRoutes = [
     {path: '/signin', element: <SignIn />, exact: true},
@@ -12,6 +13,7 @@ export const publicRoutes = [
     {path: '/profile/:username?', element: <ProfilePage />, exact: true},
     {path: '/title/:id?', element: <TitlePage />, exact: true},
     {path: '/list/:id?', element: <ListPage />, exact: true},
+    {path: '/club/:id?', element: <ClubPage />, exact: true},
 ]
 
 export const privateRoutes = [

@@ -29,15 +29,15 @@ const ProfilePage = () => {
         getUser().then(() => setIsLoading(false));
     }, []);
 
-const getLists = async () => {
-    try {
-        const data = await ListService.getUserLists(username);
-        setLists(data);
-        console.log(data);
-    } catch (e) {
-        console.error(e);
-    }
-};
+    const getLists = async () => {
+        try {
+            const data = await ListService.getUserLists(username);
+            setLists(data);
+            console.log(data);
+        } catch (e) {
+            console.error(e);
+        }
+    };
 
     const getUser = async () => {
         try {

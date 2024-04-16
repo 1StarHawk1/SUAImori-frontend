@@ -21,4 +21,41 @@ export class ClubService {
             throw new Error("getClub Error!");
         }
     }
+
+    static async joinClub(name) {
+        const token = localStorage.getItem('token');
+        console.log(`Token: ${token}`);
+        try {
+            const response = await FetchService.post(`${serverApi}/club/join`, {name: name},
+                {'Authorization': `Bearer ${token}`});
+            if (response.status === 200) {
+                return response;
+            } else {
+                console.error('Server error status:', response.status);
+                throw new Error("joinClub Error!");
+            }
+        } catch (error) {
+            console.error('Network error:', error);
+            throw error;
+        }
+    }
+
+    static async leaveClub(name)
+
+    static async checkMembership(id){
+        const token = localStorage.getItem('token');
+        try {
+            const response = await FetchService.get(`${serverApi}/club/checkmembership/${id}`,
+                {'Authorization': `Bearer ${token}`});
+            if (response.status === 200) {
+                return response;
+            } else {
+                console.error('Server error status:', response.status);
+                throw new Error("checkMembership Error!");
+            }
+        } catch (error) {
+            console.error('Network error:', error);
+            throw error;
+        }
+    }
 }
