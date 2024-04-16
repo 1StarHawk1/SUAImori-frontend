@@ -39,8 +39,9 @@ const MenuBar = () => {
                 </ListItem>
 
                 <ListItem className={styles.MuiListItem}>
-                    <Button style={{backgroundColor: '#7A8B99'}} className={styles.MuiButton} variant="contained"
-                            onClick={() => console.log('Button 3 clicked')}>Аниме</Button>
+                    <Link className={styles.MuiLink} to={"/anime"}>
+                        <Button style={{backgroundColor: '#7A8B99'}} className={styles.MuiButton} variant="contained">Аниме</Button>
+                    </Link>
                 </ListItem>
                 <ListItem className={styles.MuiListItem}>
                     <Button style={{backgroundColor: '#7A8B99'}} className={styles.MuiButton} variant="contained"

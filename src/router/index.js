@@ -5,6 +5,7 @@ import ProfilePage from "../components/pages/ProfilePage/ProfilePage";
 import TitlePage from "../components/pages/TitlePage/TitlePage";
 import ListPage from "../components/pages/ListPage/ListPage";
 import ClubPage from "../components/pages/ClubPage/ClubPage";
+import AnimeListPage from "../components/pages/AnimeListPage/AnimeListPage";
 
 export const publicRoutes = [
     {path: '/signin', element: <SignIn />, exact: true},
@@ -14,6 +15,7 @@ export const publicRoutes = [
     {path: '/title/:id?', element: <TitlePage />, exact: true},
     {path: '/list/:id?', element: <ListPage />, exact: true},
     {path: '/club/:id?', element: <ClubPage />, exact: true},
+    {path: '/anime', element: <AnimeListPage />, exact: true},
 ]
 
 export const privateRoutes = [

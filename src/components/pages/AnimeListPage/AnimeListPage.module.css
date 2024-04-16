@@ -1,0 +1,26 @@
+.animeListPage {
+    max-height: 100%;
+    margin-left: 20px;
+    margin-right: 20px;
+    overflow-y: scroll;
+    scrollbar-width: none;
+}
+
+.animeListPage::-webkit-scrollbar {
+    display: none;
+}
+
+.listpage {
+    display: flex;
+    flex-direction: row;
+    padding: 0;
+    margin: 0;
+    height: 100vh;
+    overflow-y: hidden;
+}
+
+.animeListPage {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
