@@ -24,7 +24,6 @@ export class ClubService {
 
     static async joinClub(name) {
         const token = localStorage.getItem('token');
-        console.log(`Token: ${token}`);
         try {
             const response = await FetchService.post(`${serverApi}/club/join`, {name: name},
                 {'Authorization': `Bearer ${token}`});
@@ -40,7 +39,22 @@ export class ClubService {
         }
     }
 
-    static async leaveClub(name)
+    static async leaveClub(name){
+        const token = localStorage.getItem('token');
+        try {
+            const response = await FetchService.post(`${serverApi}/club/leave`, {name: name},
+                {'Authorization': `Bearer ${token}`});
+            if (response.status === 200) {
+                return response;
+            } else {
+                console.error('Server error status:', response.status);
+                throw new Error("leaveClub Error!");
+            }
+        } catch (error) {
+            console.error('Network error:', error);
+            throw error;
+        }
+    }
 
     static async checkMembership(id){
         const token = localStorage.getItem('token');
