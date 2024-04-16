@@ -63,6 +63,7 @@ const checkMembership = async () => {
                 const response = await ClubService.joinClub(club.name);
                 if (response.status === 200) {
                     setDialogMessage("Вы успешно вступили в клуб");
+                    setIsMember(true);
                 } else {
                     setDialogMessage("Ошибка при вступлении в клуб");
                 }
@@ -79,6 +80,7 @@ const checkMembership = async () => {
                 const response = await ClubService.leaveClub(club.name);
                 if (response.status === 200) {
                     setDialogMessage("Вы успешно покинули клуб");
+                    setIsMember(false);
                 } else {
                     setDialogMessage("Ошибка");
                 }
