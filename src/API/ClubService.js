@@ -72,4 +72,16 @@ export class ClubService {
             throw error;
         }
     }
+
+    static async getUserClubs(username){
+        const response = await fetch(`${serverApi}/club/getuserclubs/${username}`);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const contentType = response.headers.get("content-type");
+        if (!contentType || !contentType.includes("application/json")) {
+            throw new Error(`Invalid content-type! Expected application/json but received ${contentType}`);
+        }
+        return response.json()
+    }
 }

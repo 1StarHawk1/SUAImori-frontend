@@ -27,30 +27,31 @@ const MenuBar = () => {
                         onClick={() => console.log('Avatar clicked')}/> </Box>
             <List className={styles.MuiList}>
                 <ListItem className={styles.MuiListItem}>
-                    <Button className={styles.MuiButton} variant="contained" onClick={() => {
+                    <Link className={styles.MuiLink} to={"/"}>
+                        <Button style={{backgroundColor: '#7A8B99'}} className={styles.MuiButton} variant="contained">Главная</Button>
+                    </Link>
+                </ListItem>
+                <ListItem className={styles.MuiListItem}>
+                    <Button style={{backgroundColor: '#7A8B99'}} className={styles.MuiButton} variant="contained" onClick={() => {
                         const path = isTokenExpired(token) ? "/signin" : "/profile/" + (decodedToken ? decodedToken.sub.toString() : '');
                         window.location.href = path;
                     }}>Профиль</Button>
                 </ListItem>
+
                 <ListItem className={styles.MuiListItem}>
-                    <Link className={styles.MuiLink} to={"/"}>
-                        <Button className={styles.MuiButton} variant="contained">Главная страница</Button>
-                    </Link>
+                    <Button style={{backgroundColor: '#7A8B99'}} className={styles.MuiButton} variant="contained"
+                            onClick={() => console.log('Button 3 clicked')}>Аниме</Button>
                 </ListItem>
                 <ListItem className={styles.MuiListItem}>
-                    <Button className={styles.MuiButton} variant="contained"
-                            onClick={() => console.log('Button 3 clicked')}>Button 3</Button>
+                    <Button style={{backgroundColor: '#7A8B99'}} className={styles.MuiButton} variant="contained"
+                            onClick={() => console.log('Button 4 clicked')}>Манга</Button>
                 </ListItem>
                 <ListItem className={styles.MuiListItem}>
-                    <Button className={styles.MuiButton} variant="contained"
-                            onClick={() => console.log('Button 4 clicked')}>Button 4</Button>
+                    <Button style={{backgroundColor: '#7A8B99'}} className={styles.MuiButton} variant="contained"
+                            onClick={() => console.log('Button 5 clicked')}>Клубы</Button>
                 </ListItem>
                 <ListItem className={styles.MuiListItem}>
-                    <Button className={styles.MuiButton} variant="contained"
-                            onClick={() => console.log('Button 5 clicked')}>Button 5</Button>
-                </ListItem>
-                <ListItem className={styles.MuiListItem}>
-                    <Button className={styles.MuiButton} variant="contained">Button 6</Button>
+                    <Button style={{backgroundColor: '#7A8B99'}} className={styles.MuiButton} variant="contained">Пользователи</Button>
                 </ListItem>
             </List>
         </div>

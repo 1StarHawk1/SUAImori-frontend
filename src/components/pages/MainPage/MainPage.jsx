@@ -96,7 +96,7 @@ const MainPage = () => {
                             getIDs={getOngoingIDs}
                             getItem={getAnime}
                             renderCard={(item) => <TitleCard title={item} aspectRatio={3 / 4}
-                                                             titlePageUrl={"/signin"}/>}
+                                                             titlePageUrl={`/title/${item.id}`}/>}
                         />
 
                         <div className={styles.categoryTitle}>Популярные сообщества</div>
@@ -104,7 +104,7 @@ const MainPage = () => {
                                   getIDs={getClubIDs}
                                   getItem={getClub}
                                   renderCard={(item) => <ClubCard club={item} aspectRatio={3 / 3}
-                                                                  clubPageUrl={"/signin"}/>}
+                                                                  clubPageUrl={`/club/${item.id}`}/>}
                         />
                     </div>
 

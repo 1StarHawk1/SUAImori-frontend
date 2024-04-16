@@ -1,7 +1,7 @@
 .menubar{
     min-width: 100px;
     height: 100%;
-    background: #f19d9d;
+    background: #b3ffb3;
 
 }
 
@@ -20,13 +20,14 @@
 
 
 .MuiLink{
-    width:100%
+    width:100%;
+
 }
 
 .MuiButton {
     width: 100%; /* или любой другой процент, который вам подходит */
     height:40px;
-    /* background-color: ;  например, изменение цвета фона */
+
     color: white; /* изменение цвета текста */
 
     text-align: center; /* выравнивание текста по центру */

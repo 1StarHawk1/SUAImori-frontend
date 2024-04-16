@@ -118,10 +118,10 @@ const checkMembership = async () => {
                             {token && (
                                 <>
                                     {isMember ? (
-                                        <Button style={{width: '300px'}} variant="contained"
+                                        <Button  style={{width: '350px', backgroundColor: '#7A8B99'}} variant="contained"
                                                 onClick={leaveClub()}>Покинуть клуб</Button>
                                     ) : (
-                                        <Button style={{width: '300px'}} variant="contained"
+                                        <Button style={{width: '350px', backgroundColor: '#7A8B99'}} variant="contained"
                                                 onClick={joinClub()}>Вступить</Button>
                                     )}
                                     <br/><br/>

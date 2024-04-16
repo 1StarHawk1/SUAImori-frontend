@@ -136,7 +136,7 @@ const TitlePage = () => {
                         <div className={styles.buttons}>
                             {token && (
                                 <>
-                                    <Button style={{width : '300px'}} variant="contained" onClick={openModal}>Добавить в список</Button><br/><br/>
+                                    <Button style={{width : '300px', backgroundColor: '#A22C29'}} variant="contained" onClick={openModal}>Добавить в список</Button><br/><br/>
                                     <Dialog
                                         open={isModalOpen}
                                         onClose={closeModal}

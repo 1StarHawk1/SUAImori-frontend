@@ -12,11 +12,14 @@ import {User} from '../../../API/model/User.tsx';
 import {UserService} from "../../../API/UserService";
 import {ListService} from "../../../API/ListService";
 import {List} from "../../../API/model/List.tsx";
+import {Club} from "../../../API/model/Club.tsx";
+import {ClubService} from "../../../API/ClubService";
 
 const ProfilePage = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [user: User, setUser] = useState(null);
     const [lists: List[], setLists] = useState([]);
+    const [clubs: Club[], setClubs] = useState([]);
     const token = localStorage.getItem("token");
     const decodedToken = token ? jwtDecode(token) : null;
     const [content, setContent] = useState('description');
@@ -39,6 +42,16 @@ const ProfilePage = () => {
         }
     };
 
+    const getClubs = async () => {
+        try {
+            const data = await ClubService.getUserClubs(username);
+            setClubs(data);
+            console.log(data);
+        } catch (e) {
+            console.error(e);
+        }
+    };
+
     const getUser = async () => {
         try {
             const response = await UserService.getUser(username, ["nickname", "avatarURL", "description", "profileWallpaperURL"]);
@@ -46,6 +59,7 @@ const ProfilePage = () => {
             setUser(data);
             console.log(data);
             await getLists();
+            await getClubs();
             setIsLoading(false);
         } catch (e) {
             console.error(e);
@@ -76,12 +90,12 @@ const ProfilePage = () => {
                     </div>
                     <ButtonGroup size="large" aria-label="Large button group" variant="contained"
                                  aria-label="Basic button group">
-                        <Button onClick={() => setContent('description')}>Описание</Button>
-                        <Button onClick={() => setContent('lists')}>Списки</Button>
-                        <Button onClick={() => setContent('friends')}>Друзья</Button>
-                        <Button onClick={() => setContent('clubs')}>Клубы</Button>
+                        <Button style={{backgroundColor: '#7A8B99', borderColor: '#393E41'}} onClick={() => setContent('description')}>Описание</Button>
+                        <Button style={{backgroundColor: '#7A8B99', borderColor: '#393E41'}} onClick={() => setContent('lists')}>Списки</Button>
+                        <Button style={{backgroundColor: '#7A8B99', borderColor: '#393E41'}} onClick={() => setContent('friends')}>Друзья</Button>
+                        <Button style={{backgroundColor: '#7A8B99', borderColor: '#393E41'}} onClick={() => setContent('clubs')}>Клубы</Button>
                         <Link to={'/settings'}>
-                            <Button>Настройки</Button>
+                            <Button style={{backgroundColor: '#7A8B99', borderColor: '#393E41'}}> Настройки</Button>
                         </Link>
                     </ButtonGroup>
                     <div className={styles.description}>
@@ -96,11 +110,18 @@ const ProfilePage = () => {
                             ))}
                             {isCurrentUser && (
                                 <Link to={'/add-list'}>
-                                    <Button variant="outlined">Добавить список</Button>
+                                    <Button style={{backgroundColor: '#7A8B99', color:'white', border: 'none'}} variant="outlined">Добавить список</Button>
                                 </Link>
                             )}</div>}
                         {content === 'friends' && <div>Здесь будет информация о друзьях</div>}
-                        {content === 'clubs' && <div>Здесь будет информация о клубах</div>}</div>
+                        {content === 'clubs' && <div>
+                            {clubs && clubs.map((club) => (
+                            <div key={club.id}>
+                                <Link className={styles.listlink} to={`/club/${club.id}`}>
+                                    <h3>{club.name}</h3>
+                                </Link>
+                            </div>
+                        ))}</div>}</div>
                 </div>
 
             </div>

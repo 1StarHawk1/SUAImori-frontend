@@ -25,7 +25,7 @@ export const TitleCard: React.FC<TitleCardProps> = ({title, aspectRatio, titlePa
     }, []);
     return (
         <Link to={titlePageUrl} className={styles.link}>
-            <Card sx={{width: width}}>
+            <Card style={{backgroundColor: '#F3D4CD'}} sx={{width: width}}>
                 <CardActionArea>
                     <CardMedia
                         component="img"

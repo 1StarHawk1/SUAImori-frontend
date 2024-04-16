@@ -19,10 +19,10 @@ const ListPage = () => {
 
     const {id} = useParams();
 
-    useEffect(() => {
-        getList(id).then(r => console.log("done"));
-        getTitleIds().then(r => console.log("done"));
-    }, []);
+    // useEffect(() => {
+    //     getList(id).then(r => console.log("done"));
+    //     getTitleIds().then(r => console.log("done"));
+    // }, []);
 
     useEffect(() => {
         const loadTitleNames = async () => {
@@ -36,6 +36,8 @@ const ListPage = () => {
             }
         }
         loadTitleNames().then(r => console.log("done"));
+        getList(id).then(r => console.log("done"));
+        getTitleIds().then(r => console.log("done"));
         console.log(titles);
     }, [titleIDs]);
 

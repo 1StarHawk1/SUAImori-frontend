@@ -24,8 +24,8 @@ export const ClubCard: React.FC<ClubCardProps> = ({club, aspectRatio, clubPageUr
         console.log(aspectRatio);
     }, []);
     return (
-        <Link to={clubPageUrl} className={styles.link}>
-            <Card sx={{width: width}}>
+        <Link  to={clubPageUrl} className={styles.link}>
+            <Card style={{backgroundColor: '#F3D4CD'}} sx={{width: width}}>
                 <CardActionArea>
                     <CardMedia
                         component="img"
