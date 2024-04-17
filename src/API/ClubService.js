@@ -84,4 +84,22 @@ export class ClubService {
         }
         return response.json()
     }
+
+    static async createClub(newClub){
+        const token = localStorage.getItem('token');
+        try {
+            const response = await FetchService.post(`${serverApi}/club/create`, newClub,
+                {'Authorization': `Bearer ${token}`});
+            if (response.status === 200) {
+                return response;
+            } else {
+                console.error('Server error status:', response.status);
+                throw new Error("createClub Error!");
+            }
+        } catch (error) {
+            console.error('Network error:', error);
+            throw error;
+        }
+
+    }
 }

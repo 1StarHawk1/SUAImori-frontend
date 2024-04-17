@@ -125,7 +125,7 @@ export default function SignUp() {
                     }}
                     severity="error">
                     {error}
-                </Alert>:null};
+                </Alert>:null}
             </Container>
         </ThemeProvider>
     );

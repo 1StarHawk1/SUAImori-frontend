@@ -22,9 +22,9 @@ const ListPage = () => {
 
     useEffect(() => {
         const getListAndTitleIds = async () => {
-            console.log(id)
-            await getList();
             await getTitleIds();
+            await getList();
+
             setIsLoading(false);
         }
         getListAndTitleIds();
@@ -66,32 +66,36 @@ const ListPage = () => {
     }
 
     return (
-        <div>
-            <div className={styles.listpage}>
-                <div className={commonStyles.menubar}>
-                    <MenuBar/>
+    <div>
+        <div className={styles.listpage}>
+            <div className={commonStyles.menubar}>
+                <MenuBar/>
+            </div>
+            <div className={`${commonStyles.content} `}>
+                <div>
+                    <NavBar/>
                 </div>
-                <div className={`${commonStyles.content} `}>
-                    <div>
-                        <NavBar/>
+                <div className={commonStyles.page}>
+
+                    <div className={styles.list}>
+                        {/* Проверка на существование списка */}
+                        {list && (
+                            <>
+                                <h1>{list.name}</h1>
+                                <div className={styles.listContainer}>
+                                    {titleIDs.map((titleID, index) => (
+                                        <ListBar titleID={titleID} onRemove={removeTitle}/>
+                                    ))}
+                                </div>
+                            </>
+                        )}
                     </div>
-                    <div className={commonStyles.page}>
 
-                        <div className={styles.list}>
-                            <h1>{list.name}</h1>
-                            <div className={styles.listContainer}>
-                                {titleIDs.map((titleID, index) => (
-                                    <ListBar titleID={titleID} onRemove={removeTitle}/>
-
-                                ))}
-                            </div>
-                        </div>
-
-                    </div>
                 </div>
             </div>
         </div>
-    );
+    </div>
+);
 };
 
 export default ListPage;

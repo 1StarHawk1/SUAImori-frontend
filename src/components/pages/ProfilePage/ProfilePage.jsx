@@ -37,6 +37,32 @@ const ProfilePage = () => {
         email: ''
     });
 
+    const [openClubDialog, setOpenClubDialog] = useState(false);
+    const [newClub: Club, setNewClub] = useState({
+        name: '',
+        imageURL: '',
+        description: ''
+    });
+
+    const handleOpenClubDialog = () => {
+        setOpenClubDialog(true);
+    };
+
+    const handleCloseClubDialog = () => {
+        setOpenClubDialog(false);
+        getClubs();
+    };
+
+
+    const createClub = async () => {
+        try {
+            await ClubService.createClub(newClub);
+            handleCloseClubDialog();
+        } catch (e) {
+            console.error(e);
+        }
+    };
+
     const handleClickOpen = () => {
         setOpen(true);
     };
@@ -47,6 +73,13 @@ const ProfilePage = () => {
 
     const handleInputChange = (event) => {
         setListName(event.target.value);
+    };
+
+    const handleInputChangeClub = (event, field) => {
+        setNewClub({
+            ...newClub,
+            [field]: event.target.value
+        });
     };
 
     const setNewInfo = (event, field) => {
@@ -65,6 +98,7 @@ const ProfilePage = () => {
     useEffect(() => {
         getUser().then(() => setIsLoading(false));
     }, []);
+
 
     const getLists = async () => {
         try {
@@ -86,27 +120,27 @@ const ProfilePage = () => {
         }
     };
 
-const getUser = async () => {
-    try {
-        const response = await UserService.getUser(username, ["nickname", "avatarURL", "description", "profileWallpaperURL", "email"]);
-        const data = await response.json();
-        setUser(data);
-        // Инициализация newUserInfo данными пользователя
-        setNewUserInfo({
-            nickname: data.nickname,
-            description: data.description,
-            avatarURL: data.avatarURL,
-            profileWallpaperURL: data.profileWallpaperURL,
-            email: data.email
-        });
-        console.log(data);
-        await getLists();
-        await getClubs();
-        setIsLoading(false);
-    } catch (e) {
-        console.error(e);
-    }
-};
+    const getUser = async () => {
+        try {
+            const response = await UserService.getUser(username, ["nickname", "avatarURL", "description", "profileWallpaperURL", "email"]);
+            const data = await response.json();
+            setUser(data);
+            // Инициализация newUserInfo данными пользователя
+            setNewUserInfo({
+                nickname: data.nickname,
+                description: data.description,
+                avatarURL: data.avatarURL,
+                profileWallpaperURL: data.profileWallpaperURL,
+                email: data.email
+            });
+            console.log(data);
+            await getLists();
+            await getClubs();
+            setIsLoading(false);
+        } catch (e) {
+            console.error(e);
+        }
+    };
 
     const updateUser = async (newUserInfo) => {
         try {
@@ -124,11 +158,11 @@ const getUser = async () => {
     return (
         <div className={commonStyles.pageBody}>
             <div className={commonStyles.menubar}><MenuBar/></div>
-            <div className={styles.page}>
+            <div className={commonStyles.page}>
                 <div className={styles.banner}>
                     <img src={user.profileWallpaperURL} alt="Banner"/>
                 </div>
-                <div className={styles.content}>
+                <div className={commonStyles.content}>
 
                     <div>
                         <Avatar
@@ -181,46 +215,96 @@ const getUser = async () => {
                                         <h3>{club.name}</h3>
                                     </Link>
                                 </div>
-                            ))}</div>}
+                            ))}
+                            {isCurrentUser && (
+                            <Button style={{backgroundColor: '#7A8B99', color: 'white', border: 'none'}}
+                                    variant="outlined" onClick={handleOpenClubDialog}>Создать клуб</Button>)}
+                        </div>}
+
+                        <Dialog open={openClubDialog} onClose={handleCloseClubDialog}>
+                            <DialogTitle>Создать клуб</DialogTitle>
+                            <DialogContent>
+                                <TextField
+                                    autoFocus
+                                    margin="dense"
+                                    id="name"
+                                    label="Название клуба"
+                                    type="text"
+                                    fullWidth
+                                    variant="standard"
+                                    value={newClub.name}
+                                    onChange={(e) => handleInputChangeClub(e, 'name')}
+                                    autoComplete="new-password"
+                                />
+                                <TextField
+                                    margin="dense"
+                                    id="imageURL"
+                                    label="URL баннера"
+                                    type="text"
+                                    fullWidth
+                                    variant="standard"
+                                    value={newClub.imageURL}
+                                    onChange={(e) => handleInputChangeClub(e, 'imageURL')}
+                                    autoComplete="new-password"
+                                />
+                                <TextField
+                                    margin="dense"
+                                    id="description"
+                                    label="Описание"
+                                    type="text"
+                                    fullWidth
+                                    variant="standard"
+                                    value={newClub.description}
+                                    onChange={(e) => handleInputChangeClub(e, 'description')}
+                                    autoComplete="new-password"
+                                />
+                            </DialogContent>
+                            <DialogActions>
+                                <Button onClick={handleCloseClubDialog}>Отмена</Button>
+                                <Button onClick={createClub}>Создать</Button>
+                            </DialogActions>
+                        </Dialog>
                         {content === 'settings' && (
                             <div>
                                 <form>
                                     <TextField
                                         className={styles.input}
-                                        style={{margin:'10px'}}
+                                        style={{margin: '10px'}}
                                         label="Никнейм"
                                         value={newUserInfo.nickname}
                                         onChange={(e) => setNewInfo(e, 'nickname')}
                                     />
                                     <TextField
                                         className={styles.input}
-                                        style={{margin:'10px'}}
+                                        style={{margin: '10px'}}
                                         label="Email"
                                         value={newUserInfo.email}
                                         onChange={(e) => setNewInfo(e, 'email')}
                                     />
                                     <TextField
                                         className={styles.input}
-                                        style={{margin:'10px'}}
+                                        style={{margin: '10px'}}
                                         label="URL аватара"
                                         value={newUserInfo.avatarURL}
                                         onChange={(e) => setNewInfo(e, 'avatarURL')}
                                     />
                                     <TextField
                                         className={styles.input}
-                                        style={{margin:'10px'}}
+                                        style={{margin: '10px'}}
                                         label="URL обоев профиля"
                                         value={newUserInfo.profileWallpaperURL}
                                         onChange={(e) => setNewInfo(e, 'profileWallpaperURL')}
                                     />
                                     <TextField
-                                        style={{width: '780px', margin:'10px'}}
+                                        style={{width: '780px', margin: '10px'}}
                                         className={styles.input}
                                         label="Описание"
                                         value={newUserInfo.description}
                                         onChange={(e) => setNewInfo(e, 'description')}
                                     />
-                                    <Button style={{marginTop:'10px'}} className={styles.button} onClick={() => updateUser(newUserInfo)} variant={"contained"}>Сохранить изменения</Button>
+                                    <Button style={{marginTop: '10px'}} className={styles.button}
+                                            onClick={() => updateUser(newUserInfo)} variant={"contained"}>Сохранить
+                                        изменения</Button>
                                 </form>
                             </div>
                         )}
