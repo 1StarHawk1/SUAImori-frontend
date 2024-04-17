@@ -14,6 +14,8 @@ import {ListService} from "../../../API/ListService";
 import {List} from "../../../API/model/List.tsx";
 import {Club} from "../../../API/model/Club.tsx";
 import {ClubService} from "../../../API/ClubService";
+import {Dialog, DialogActions, DialogContent, DialogTitle} from "@mui/material";
+import TextField from "@mui/material/TextField";
 
 const ProfilePage = () => {
     const [isLoading, setIsLoading] = useState(true);
@@ -23,10 +25,28 @@ const ProfilePage = () => {
     const token = localStorage.getItem("token");
     const decodedToken = token ? jwtDecode(token) : null;
     const [content, setContent] = useState('description');
-
-
+    const [open, setOpen] = useState(false);
+    const [listName, setListName] = useState('');
     const {username} = useParams();
     const isCurrentUser = decodedToken && decodedToken.sub === username;
+
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+
+    const handleInputChange = (event) => {
+        setListName(event.target.value);
+    };
+
+    const addUserList = (listName) => {
+        ListService.addList(listName);
+        handleClose();
+    };
+
 
     useEffect(() => {
         getUser().then(() => setIsLoading(false));
@@ -109,9 +129,9 @@ const ProfilePage = () => {
                                 </div>
                             ))}
                             {isCurrentUser && (
-                                <Link to={'/add-list'}>
-                                    <Button style={{backgroundColor: '#7A8B99', color:'white', border: 'none'}} variant="outlined">Добавить список</Button>
-                                </Link>
+
+                                <Button style={{backgroundColor: '#7A8B99', color:'white', border: 'none'}} variant="outlined" onClick={handleClickOpen}>Добавить список</Button>
+
                             )}</div>}
                         {content === 'friends' && <div>Здесь будет информация о друзьях</div>}
                         {content === 'clubs' && <div>
@@ -125,6 +145,27 @@ const ProfilePage = () => {
                 </div>
 
             </div>
+            <Dialog open={open} onClose={handleClose}>
+                <DialogTitle>Добавить список</DialogTitle>
+                <DialogContent>
+                    <TextField
+                        autoFocus
+                        margin="dense"
+                        id="name"
+                        label="Название списка"
+                        type="text"
+                        fullWidth
+                        variant="standard"
+                        value={listName}
+                        onChange={handleInputChange}
+                        autoComplete="new-password"
+                    />
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleClose}>Отмена</Button>
+                    <Button onClick={() => addUserList(listName)}>Добавить</Button>
+                </DialogActions>
+            </Dialog>
         </div>
     )
         ;

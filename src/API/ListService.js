@@ -28,6 +28,18 @@ export class ListService{
         }
     }
 
+    static async addList(listName){
+        const response = await FetchService.post(`${serverApi}/list/create`, {name:listName},
+            {'Authorization': `Bearer ${localStorage.getItem('token')}`});
+        if(response.status === 200){
+            const text = await response.text();
+            return text ? JSON.parse(text) : {};
+        }
+        else{
+            throw new Error("addList Error!");
+        }
+    }
+
     static async getTitles(listId){
         const response = await FetchService.get(`${serverApi}/list/gettitles/${listId}`)
         if(response.status === 200){
