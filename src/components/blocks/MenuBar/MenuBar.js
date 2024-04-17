@@ -55,9 +55,9 @@ const MenuBar = () => {
                                 >Клубы</Button>
                     </Link>
                 </ListItem>
-                <ListItem className={styles.MuiListItem}>
-                    <Button style={{backgroundColor: '#7A8B99'}} className={styles.MuiButton} variant="contained">Пользователи</Button>
-                </ListItem>
+                {/*<ListItem className={styles.MuiListItem}>*/}
+                {/*    <Button style={{backgroundColor: '#7A8B99'}} className={styles.MuiButton} variant="contained">Пользователи</Button>*/}
+                {/*</ListItem>*/}
             </List>
         </div>
     );
