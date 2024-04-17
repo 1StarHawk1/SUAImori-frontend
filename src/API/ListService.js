@@ -28,6 +28,17 @@ export class ListService{
         }
     }
 
+    static async removeTitle(listId, titleId){
+        const response = await FetchService.put(`${serverApi}/list/removeTitle`, {listId:listId, titleId:titleId})
+        if(response.status === 200){
+            const text = await response.text();
+            return text ? JSON.parse(text) : {};
+        }
+        else{
+            throw new Error("removeTitle Error!");
+        }
+    }
+
     static async addList(listName){
         const response = await FetchService.post(`${serverApi}/list/create`, {name:listName},
             {'Authorization': `Bearer ${localStorage.getItem('token')}`});

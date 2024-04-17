@@ -34,3 +34,7 @@
 .page::-webkit-scrollbar {
     display: none;
 }
+
+.link {
+    color: #585123;
+}

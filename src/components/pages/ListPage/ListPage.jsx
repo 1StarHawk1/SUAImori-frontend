@@ -10,44 +10,33 @@ import {ListService} from "../../../API/ListService";
 import {Link, useParams} from "react-router-dom";
 import {ClubService} from "../../../API/ClubService";
 import {Title} from "../../../API/model/Title.tsx";
+import Button from "@mui/material/Button";
+import ListBar from "../../atoms/ListBar/ListBar";
 
 const ListPage = () => {
     const [isLoading, setIsLoading] = useState(true);
+    const [list: List, setList] = useState(null);
     const [titleIDs, setTitleIDs] = useState([]);
-    const [titles, setTitleNames] = useState([]);
-    const [list : List, setList] = useState(null);
 
     const {id} = useParams();
 
-    // useEffect(() => {
-    //     getList(id).then(r => console.log("done"));
-    //     getTitleIds().then(r => console.log("done"));
-    // }, []);
-
     useEffect(() => {
-        const loadTitleNames = async () => {
-            if (titleIDs.length > 0) {
-                console.log("fetching names...");
-                const titlesPromises = titleIDs.map(id => getTitle(id));
-                const itemsData = await Promise.all(titlesPromises);
-                setTitleNames(itemsData);
-
-                console.log(titles);
-            }
+        const getListAndTitleIds = async () => {
+            console.log(id)
+            await getList();
+            await getTitleIds();
+            setIsLoading(false);
         }
-        loadTitleNames().then(r => console.log("done"));
-        getList(id).then(r => console.log("done"));
-        getTitleIds().then(r => console.log("done"));
-        console.log(titles);
-    }, [titleIDs]);
+        getListAndTitleIds();
+    }, []);
 
-    const getList = async (id) => {
+
+    const getList = async () => {
         try {
             const response = await ListService.getList(id);
             const data = await response.json();
             setList(data);
             console.log(data);
-            setIsLoading(false);
         } catch (e) {
             console.error(e);
         }
@@ -64,14 +53,13 @@ const ListPage = () => {
         }
     };
 
-    const getTitle = async (id) => {
+    const removeTitle = async (titleId) => {
         try {
-            const response = await TitleService.getTitle(id, ["name"]);
-            return response.json();
+            await ListService.removeTitle(id, titleId);
         } catch (e) {
-            console.log(e);
+            console.error(e);
         }
-    }
+    };
 
     if (isLoading) {
         return <div>Loading...</div>;
@@ -92,11 +80,8 @@ const ListPage = () => {
                         <div className={styles.list}>
                             <h1>{list.name}</h1>
                             <div className={styles.listContainer}>
-                                {titles.map((title, index) => (
-
-                                    <Link to={`/title/${title.id}`}>
-                                        <h3>{title.name}</h3>
-                                    </Link>
+                                {titleIDs.map((titleID, index) => (
+                                    <ListBar titleID={titleID} onRemove={removeTitle}/>
 
                                 ))}
                             </div>
