@@ -18,11 +18,6 @@ interface TitleCardProps {
 export const TitleCard: React.FC<TitleCardProps> = ({title, aspectRatio, titlePageUrl}) => {
     const width = 200;
     const height = width / aspectRatio;
-    useEffect(() => {
-        console.log(title);
-        console.log(titlePageUrl);
-        console.log(aspectRatio);
-    }, []);
     return (
         <Link to={titlePageUrl} className={styles.link}>
             <Card style={{backgroundColor: '#F3D4CD', margin:'10px'}} sx={{width: width}}>

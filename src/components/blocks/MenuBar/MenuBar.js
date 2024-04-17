@@ -44,12 +44,16 @@ const MenuBar = () => {
                     </Link>
                 </ListItem>
                 <ListItem className={styles.MuiListItem}>
-                    <Button style={{backgroundColor: '#7A8B99'}} className={styles.MuiButton} variant="contained"
-                            onClick={() => console.log('Button 4 clicked')}>Манга</Button>
+                    <Link className={styles.MuiLink} to={"/manga"}>
+                        <Button style={{backgroundColor: '#7A8B99'}} className={styles.MuiButton} variant="contained"
+                                >Манга</Button>
+                    </Link>
                 </ListItem>
                 <ListItem className={styles.MuiListItem}>
-                    <Button style={{backgroundColor: '#7A8B99'}} className={styles.MuiButton} variant="contained"
-                            onClick={() => console.log('Button 5 clicked')}>Клубы</Button>
+                    <Link className={styles.MuiLink} to={"/clubs"}>
+                        <Button style={{backgroundColor: '#7A8B99'}} className={styles.MuiButton} variant="contained"
+                                >Клубы</Button>
+                    </Link>
                 </ListItem>
                 <ListItem className={styles.MuiListItem}>
                     <Button style={{backgroundColor: '#7A8B99'}} className={styles.MuiButton} variant="contained">Пользователи</Button>

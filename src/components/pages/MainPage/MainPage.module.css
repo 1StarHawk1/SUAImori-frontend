@@ -36,7 +36,9 @@ html{
 
 .content {
     flex-grow: 1;
-    height: calc(100vh - 70px);
+    height: calc(100vh - 70px); 
+    padding-bottom: 70px;
+    overflow-y: hidden;
 }
 
 .navbar{

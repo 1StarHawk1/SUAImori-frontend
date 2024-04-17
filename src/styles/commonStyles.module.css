@@ -23,8 +23,14 @@
 }
 
 .page {
-    flex-grow: 1;
+    max-height: 100%;
     margin-left: 20px;
     margin-right: 20px;
-    height: 100%;
+    overflow-y: scroll;
+    scrollbar-width: none; /* Для Firefox */
+    -ms-overflow-style: none;  /* Для Internet Explorer 10+ */
+}
+/* Для Webkit-браузеров */
+.page::-webkit-scrollbar {
+    display: none;
 }

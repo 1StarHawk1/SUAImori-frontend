@@ -125,8 +125,8 @@ const TitlePage = () => {
                                             title.status === "COMPLETED" ? ': Завершен' : ': Анонс'
                                     }
                                 </h4>
-                                <h4>Дата выхода: {title.releaseDate}</h4>
-                                <h4>Дата завершения: {title.complitionDate}</h4>
+                                <h4>Дата выхода: {new Date(title.releaseDate).toLocaleDateString()}</h4>
+                                <h4>Дата завершения: {new Date(title.complitionDate).toLocaleDateString()}</h4>
                                 <h4>Количество эпизодов: {title.itemCount}</h4>
                                 <h4>NSFW: {title.isNSFW ? 'Да' : 'Нет'}</h4>
 

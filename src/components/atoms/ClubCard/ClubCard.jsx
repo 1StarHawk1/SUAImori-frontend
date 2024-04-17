@@ -18,14 +18,9 @@ interface ClubCardProps {
 export const ClubCard: React.FC<ClubCardProps> = ({club, aspectRatio, clubPageUrl}) => {
     const width = 200;
     const height = width / aspectRatio;
-    useEffect(() => {
-        console.log(club);
-        console.log(clubPageUrl);
-        console.log(aspectRatio);
-    }, []);
     return (
         <Link  to={clubPageUrl} className={styles.link}>
-            <Card style={{backgroundColor: '#F3D4CD'}} sx={{width: width}}>
+            <Card style={{backgroundColor: '#F3D4CD', margin:'10px'}} sx={{width: width}}>
                 <CardActionArea>
                     <CardMedia
                         component="img"

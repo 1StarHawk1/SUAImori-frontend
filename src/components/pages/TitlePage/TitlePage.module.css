@@ -9,9 +9,9 @@
 
 .content {
     flex-grow: 1;
-    margin:0;
-    height: 100%;
-
+    height: calc(100vh);
+    padding-bottom: 70px;
+    overflow-y: hidden;
 }
 
 .poster{
@@ -25,9 +25,12 @@
     align-items: flex-start;
 }
 
-/*.description{*/
-/*    margin-left:50px;*/
-/*}*/
+.description{
+    margin-bottom: 30px;
+    margin-left:10px;
+    margin-right:10px;
+    padding-bottom: 60px;
+}
 
 .buttons{
     margin-top:20px;

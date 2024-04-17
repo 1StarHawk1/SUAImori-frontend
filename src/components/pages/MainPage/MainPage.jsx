@@ -70,7 +70,7 @@ const MainPage = () => {
         <>
 
             <div className={styles.mainpage}>
-                <div className={styles.menubar}><MenuBar/></div>
+                <div><MenuBar/></div>
 
                 <div className={`${styles.content} ${isOpen ? styles.open : ''}`}>
                     <div className={styles.navbar}><NavBar/></div>
