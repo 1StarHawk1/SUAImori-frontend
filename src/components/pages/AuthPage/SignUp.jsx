@@ -12,6 +12,8 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import {createTheme, ThemeProvider} from '@mui/material/styles';
 import {Link, useLocation, useNavigate} from "react-router-dom";
+import {AuthApiService} from "../../../API/AuthApiService";
+import {Alert} from "@mui/material";
 
 function Copyright(props) {
     return (
@@ -34,13 +36,21 @@ export default function SignUp() {
     const navigate = useNavigate();
     const location = useLocation();
     const redirect = new URLSearchParams(location.search).get('redirect');
-    const handleSubmit = (event) => {
+    const [error, setError] = React.useState(null);
+    const handleSubmit = async (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
         console.log({
+            username: data.get('username'),
             email: data.get('email'),
             password: data.get('password'),
         });
+        try {
+            await AuthApiService.signUp(data.get('username'), data.get('password'), data.get('email'));
+            navigate(redirect ? redirect : '/');
+        } catch (e) {
+            setError(e.message)
+        }
         navigate(redirect ? redirect : '/');
     };
 
@@ -66,11 +76,11 @@ export default function SignUp() {
                         <TextField
                             autoComplete="given-name"
                             margin="normal"
-                            name="nickname"
+                            name="username"
                             required
                             fullWidth
-                            id="nickname"
-                            label="Nickname"
+                            id="username"
+                            label="Username"
                             autoFocus
                         />
                         <TextField
@@ -109,6 +119,13 @@ export default function SignUp() {
                         </Grid>
                     </Box>
                 </Box>
+                {error? <Alert
+                    sx={{
+                        marginTop: 8
+                    }}
+                    severity="error">
+                    {error}
+                </Alert>:null};
             </Container>
         </ThemeProvider>
     );

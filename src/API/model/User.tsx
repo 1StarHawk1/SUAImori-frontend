@@ -4,6 +4,7 @@ export class User{
     public avatarURL: string;
     public profileWallpaperURL: number;
     public description: string;
+    public email: string;
 
 
     constructor(data: Partial<User>) {

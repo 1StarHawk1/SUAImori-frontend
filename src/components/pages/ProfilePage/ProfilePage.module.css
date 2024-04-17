@@ -36,5 +36,14 @@
     color: #585123;
 }
 
+.input{
+    margin:10px;
+}
+
+.button{
+    width: 150px;
+    height: 55px;
+    margin-top: 10px;
+}
 
 

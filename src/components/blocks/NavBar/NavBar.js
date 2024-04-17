@@ -25,22 +25,22 @@ const NavBar = () => {
             <Box className={styles.MuiBox} display="flex" justifyContent="space-between" alignItems="center" width="100%">
                 <div></div>
                 <div>
-                    <TextField
-                        id="search"
-                        className={styles.textField}
-                        label="Поиск"
-                        InputProps={{
-                            endAdornment: (
-                                <InputAdornment position="end">
-                                    <IconButton className={styles.MuiButton} color="inherit" onClick={handleSearch}>
-                                        <SearchIcon />
-                                    </IconButton>
-                                </InputAdornment>
-                            ),
-                        }}
-                    />
+                    {/*<TextField*/}
+                    {/*    id="search"*/}
+                    {/*    className={styles.textField}*/}
+                    {/*    label="Поиск"*/}
+                    {/*    InputProps={{*/}
+                    {/*        endAdornment: (*/}
+                    {/*            <InputAdornment position="end">*/}
+                    {/*                <IconButton className={styles.MuiButton} color="inherit" onClick={handleSearch}>*/}
+                    {/*                    <SearchIcon />*/}
+                    {/*                </IconButton>*/}
+                    {/*            </InputAdornment>*/}
+                    {/*        ),*/}
+                    {/*    }}*/}
+                    {/*/>*/}
                 </div>
-                <IconButton className={styles.exitButton} color="inherit" onClick={handleLogout}>
+                <IconButton style={{marginTop:'15px'}} color="inherit" onClick={handleLogout}>
                     <ExitToAppIcon />
                 </IconButton>
             </Box>

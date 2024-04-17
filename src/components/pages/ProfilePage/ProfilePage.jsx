@@ -29,6 +29,13 @@ const ProfilePage = () => {
     const [listName, setListName] = useState('');
     const {username} = useParams();
     const isCurrentUser = decodedToken && decodedToken.sub === username;
+    const [newUserInfo, setNewUserInfo] = useState({
+        nickname: '',
+        description: '',
+        avatarURL: '',
+        profileWallpaperURL: '',
+        email: ''
+    });
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -40,6 +47,13 @@ const ProfilePage = () => {
 
     const handleInputChange = (event) => {
         setListName(event.target.value);
+    };
+
+    const setNewInfo = (event, field) => {
+        setNewUserInfo({
+            ...newUserInfo,
+            [field]: event.target.value
+        });
     };
 
     const addUserList = (listName) => {
@@ -72,15 +86,32 @@ const ProfilePage = () => {
         }
     };
 
-    const getUser = async () => {
+const getUser = async () => {
+    try {
+        const response = await UserService.getUser(username, ["nickname", "avatarURL", "description", "profileWallpaperURL", "email"]);
+        const data = await response.json();
+        setUser(data);
+        // Инициализация newUserInfo данными пользователя
+        setNewUserInfo({
+            nickname: data.nickname,
+            description: data.description,
+            avatarURL: data.avatarURL,
+            profileWallpaperURL: data.profileWallpaperURL,
+            email: data.email
+        });
+        console.log(data);
+        await getLists();
+        await getClubs();
+        setIsLoading(false);
+    } catch (e) {
+        console.error(e);
+    }
+};
+
+    const updateUser = async (newUserInfo) => {
         try {
-            const response = await UserService.getUser(username, ["nickname", "avatarURL", "description", "profileWallpaperURL"]);
-            const data = await response.json();
-            setUser(data);
-            console.log(data);
-            await getLists();
-            await getClubs();
-            setIsLoading(false);
+            await UserService.updateUser(username, newUserInfo);
+            setUser(newUserInfo);
         } catch (e) {
             console.error(e);
         }
@@ -110,13 +141,21 @@ const ProfilePage = () => {
                     </div>
                     <ButtonGroup size="large" aria-label="Large button group" variant="contained"
                                  aria-label="Basic button group">
-                        <Button style={{backgroundColor: '#7A8B99', borderColor: '#393E41'}} onClick={() => setContent('description')}>Описание</Button>
-                        <Button style={{backgroundColor: '#7A8B99', borderColor: '#393E41'}} onClick={() => setContent('lists')}>Списки</Button>
+                        <Button style={{backgroundColor: '#7A8B99', borderColor: '#393E41'}}
+                                onClick={() => setContent('description')}>Описание</Button>
+                        <Button style={{backgroundColor: '#7A8B99', borderColor: '#393E41'}}
+                                onClick={() => setContent('lists')}>Списки</Button>
                         {/*<Button style={{backgroundColor: '#7A8B99', borderColor: '#393E41'}} onClick={() => setContent('friends')}>Друзья</Button>*/}
-                        <Button style={{backgroundColor: '#7A8B99', borderColor: '#393E41'}} onClick={() => setContent('clubs')}>Клубы</Button>
-                        <Link to={'/settings'}>
-                            <Button style={{backgroundColor: '#7A8B99', borderColor: '#393E41'}}> Настройки</Button>
-                        </Link>
+                        <Button style={{backgroundColor: '#7A8B99', borderColor: '#393E41'}}
+                                onClick={() => setContent('clubs')}>Клубы</Button>
+                        {isCurrentUser && (
+                            <Button
+                                style={{backgroundColor: '#7A8B99', borderColor: '#393E41'}}
+                                onClick={() => setContent('settings')}
+                            >
+                                Настройки
+                            </Button>
+                        )}
                     </ButtonGroup>
                     <div className={styles.description}>
                         {content === 'description' && <div className={styles.description}>{user.description}</div>}
@@ -130,18 +169,62 @@ const ProfilePage = () => {
                             ))}
                             {isCurrentUser && (
 
-                                <Button style={{backgroundColor: '#7A8B99', color:'white', border: 'none'}} variant="outlined" onClick={handleClickOpen}>Добавить список</Button>
+                                <Button style={{backgroundColor: '#7A8B99', color: 'white', border: 'none'}}
+                                        variant="outlined" onClick={handleClickOpen}>Добавить список</Button>
 
                             )}</div>}
                         {content === 'friends' && <div>Здесь будет информация о друзьях</div>}
                         {content === 'clubs' && <div>
                             {clubs && clubs.map((club) => (
-                            <div key={club.id}>
-                                <Link className={styles.listlink} to={`/club/${club.id}`}>
-                                    <h3>{club.name}</h3>
-                                </Link>
+                                <div key={club.id}>
+                                    <Link className={styles.listlink} to={`/club/${club.id}`}>
+                                        <h3>{club.name}</h3>
+                                    </Link>
+                                </div>
+                            ))}</div>}
+                        {content === 'settings' && (
+                            <div>
+                                <form>
+                                    <TextField
+                                        className={styles.input}
+                                        style={{margin:'10px'}}
+                                        label="Никнейм"
+                                        value={newUserInfo.nickname}
+                                        onChange={(e) => setNewInfo(e, 'nickname')}
+                                    />
+                                    <TextField
+                                        className={styles.input}
+                                        style={{margin:'10px'}}
+                                        label="Email"
+                                        value={newUserInfo.email}
+                                        onChange={(e) => setNewInfo(e, 'email')}
+                                    />
+                                    <TextField
+                                        className={styles.input}
+                                        style={{margin:'10px'}}
+                                        label="URL аватара"
+                                        value={newUserInfo.avatarURL}
+                                        onChange={(e) => setNewInfo(e, 'avatarURL')}
+                                    />
+                                    <TextField
+                                        className={styles.input}
+                                        style={{margin:'10px'}}
+                                        label="URL обоев профиля"
+                                        value={newUserInfo.profileWallpaperURL}
+                                        onChange={(e) => setNewInfo(e, 'profileWallpaperURL')}
+                                    />
+                                    <TextField
+                                        style={{width: '780px', margin:'10px'}}
+                                        className={styles.input}
+                                        label="Описание"
+                                        value={newUserInfo.description}
+                                        onChange={(e) => setNewInfo(e, 'description')}
+                                    />
+                                    <Button style={{marginTop:'10px'}} className={styles.button} onClick={() => updateUser(newUserInfo)} variant={"contained"}>Сохранить изменения</Button>
+                                </form>
                             </div>
-                        ))}</div>}</div>
+                        )}
+                    </div>
                 </div>
 
             </div>

@@ -12,4 +12,13 @@ export class UserService{
             throw new Error("getUser Error!");
         }
     }
+
+    static async updateUser(username, newUserInfo){
+        const response = await FetchService.put(`${serverApi}/user/${username}`, newUserInfo);
+        if (response.status === 200) {
+            return response;
+        } else {
+            throw new Error("updateUser Error!");
+        }
+    }
 }

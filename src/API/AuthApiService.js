@@ -13,4 +13,16 @@ export class AuthApiService{
             throw new Error("Неверное имя пользователя или пароль");
         }
     }
+
+    static async signUp(username, password, email){
+        const response = await FetchService.post(`${serverApi}/auth/sign-up`, {username:username, password:password, email:email})
+        if(response.status === 200){
+            const data = await response.json()
+            localStorage.setItem('token', data.token)
+            console.log("Sign up success with token " + data.token)
+        }
+        else{
+            throw new Error("Пользователь с таким именем уже существует");
+        }
+    }
 }
