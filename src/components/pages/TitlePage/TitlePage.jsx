@@ -5,7 +5,7 @@ import MenuBar from "../../blocks/MenuBar/MenuBar";
 import NavBar from "../../blocks/NavBar/NavBar";
 import {UserService} from "../../../API/UserService";
 import {TitleService} from "../../../API/TitleService";
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {Title} from '../../../API/model/Title.tsx';
 import Button from "@mui/material/Button";
 import {
@@ -38,6 +38,8 @@ const TitlePage = () => {
 
     const [userLists, setUserLists] = useState([]);
     const [selectedList, setSelectedList] = useState(null);
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         getTitle().then(() => setIsLoading(false));
@@ -91,6 +93,10 @@ const TitlePage = () => {
         try {
             const response = await TitleService.getTitle(id, ["complitionDate", "description", "isNSFW", "itemCount", "name", "posterURL", "releaseDate", "status", "type"]);
             const data = await response.json();
+            if(Object.keys(data).length === 0 && data.constructor === Object) {
+                navigate('/NotFound');
+                return;
+            }
             setTitle(data);
             console.log(data);
             setIsLoading(false);

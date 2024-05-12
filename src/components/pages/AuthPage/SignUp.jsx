@@ -40,11 +40,15 @@ export default function SignUp() {
     const handleSubmit = async (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-        console.log({
-            username: data.get('username'),
-            email: data.get('email'),
-            password: data.get('password'),
-        });
+        const username = data.get('username');
+        const password = data.get('password');
+        const email = data.get('email');
+
+        if(!username || !password || !email){
+            setError('Пожалуйста, заполните все поля регистрации');
+            return;
+        }
+
         try {
             await AuthApiService.signUp(data.get('username'), data.get('password'), data.get('email'));
             navigate(redirect ? redirect : '/');

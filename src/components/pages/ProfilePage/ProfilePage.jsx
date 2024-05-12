@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import MenuBar from "../../blocks/MenuBar/MenuBar";
 import Avatar from "@mui/material/Avatar";
-import {Link, useParams} from "react-router-dom";
+import {Link, useNavigate, useParams} from "react-router-dom";
 import styles from './ProfilePage.module.css';
 import commonStyles from '../../../styles/commonStyles.module.css';
 import Button from '@mui/material/Button';
@@ -37,6 +37,8 @@ const ProfilePage = () => {
         email: ''
     });
 
+    const navigate = useNavigate();
+
     const [openClubDialog, setOpenClubDialog] = useState(false);
     const [newClub: Club, setNewClub] = useState({
         name: '',
@@ -55,6 +57,15 @@ const ProfilePage = () => {
 
 
     const createClub = async () => {
+        if(newClub.name.length > 255 || newClub.imageURL.length > 255 || newClub.description.length > 255){
+            alert("Превышена длина одного из полей");
+            return;
+        }
+        else if(newClub.name.length === 0){
+            alert("Обязательно заполните поле 'Название клуба'");
+            return;
+        }
+
         try {
             await ClubService.createClub(newClub);
             handleCloseClubDialog();
@@ -90,6 +101,14 @@ const ProfilePage = () => {
     };
 
     const addUserList = (listName) => {
+        if(listName.length > 255){
+            alert('Слишком больше имя списка');
+            return;
+        }
+        else if(listName.length === 0){
+            alert('Введите имя списка');
+            return;
+        }
         ListService.addList(listName);
         handleClose();
     };
@@ -124,6 +143,10 @@ const ProfilePage = () => {
         try {
             const response = await UserService.getUser(username, ["nickname", "avatarURL", "description", "profileWallpaperURL", "email"]);
             const data = await response.json();
+            if(Object.keys(data).length === 0 && data.constructor === Object) {
+                navigate('/NotFound');
+                return;
+            }
             setUser(data);
             // Инициализация newUserInfo данными пользователя
             setNewUserInfo({
@@ -143,6 +166,11 @@ const ProfilePage = () => {
     };
 
     const updateUser = async (newUserInfo) => {
+        if(newUserInfo.email.length >255 || newUserInfo.nickname.length > 50 || newUserInfo.avatarURL.length > 255 || newUserInfo.profileWallpaperURL.length > 255 || newUserInfo.description.length > 255){
+            alert("Превышена длина одного из полей");
+            return;
+        }
+
         try {
             await UserService.updateUser(username, newUserInfo);
             setUser(newUserInfo);
@@ -273,6 +301,7 @@ const ProfilePage = () => {
                                         label="Никнейм"
                                         value={newUserInfo.nickname}
                                         onChange={(e) => setNewInfo(e, 'nickname')}
+                                        maxLength={50}
                                     />
                                     <TextField
                                         className={styles.input}
@@ -280,6 +309,7 @@ const ProfilePage = () => {
                                         label="Email"
                                         value={newUserInfo.email}
                                         onChange={(e) => setNewInfo(e, 'email')}
+                                        maxLength={200}
                                     />
                                     <TextField
                                         className={styles.input}
@@ -287,6 +317,7 @@ const ProfilePage = () => {
                                         label="URL аватара"
                                         value={newUserInfo.avatarURL}
                                         onChange={(e) => setNewInfo(e, 'avatarURL')}
+                                        maxLength={200}
                                     />
                                     <TextField
                                         className={styles.input}
@@ -294,6 +325,7 @@ const ProfilePage = () => {
                                         label="URL обоев профиля"
                                         value={newUserInfo.profileWallpaperURL}
                                         onChange={(e) => setNewInfo(e, 'profileWallpaperURL')}
+                                        maxLength={200}
                                     />
                                     <TextField
                                         style={{width: '780px', margin: '10px'}}
@@ -301,6 +333,7 @@ const ProfilePage = () => {
                                         label="Описание"
                                         value={newUserInfo.description}
                                         onChange={(e) => setNewInfo(e, 'description')}
+                                        maxLength={255}
                                     />
                                     <Button style={{marginTop: '10px'}} className={styles.button}
                                             onClick={() => updateUser(newUserInfo)} variant={"contained"}>Сохранить

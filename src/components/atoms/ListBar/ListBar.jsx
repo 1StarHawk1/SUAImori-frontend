@@ -4,10 +4,12 @@ import Button from "@mui/material/Button";
 import {TitleService} from "../../../API/TitleService";
 import {Title} from "../../../API/model/Title.tsx";
 import commonStyles from "../../../styles/commonStyles.module.css";
+import {jwtDecode} from "jwt-decode";
 
-const ListBar = ({ titleID, onRemove }) => {
+const ListBar = ({ titleID, onRemove, isOwner }) => {
     const [isLoading, setIsLoading] = useState(true);
     const [title:Title, setTitle] = useState();
+
 
     useEffect(() => {
         const loadTitleNames = async () => {
@@ -41,10 +43,12 @@ const ListBar = ({ titleID, onRemove }) => {
                 <Link className={commonStyles.link} to={`/title/${title.id}`} style={{width: '500px'}}>
                     <h3>{title.name}</h3>
                 </Link>
+                {isOwner &&(
                 <Button style={{height: '40px', backgroundColor:'#7A8B99'}} variant="contained" color="primary"
                         onClick={() => onRemove(title.id)}>
                     Удалить
                 </Button>
+                )}
             </div>
         </div>
     );

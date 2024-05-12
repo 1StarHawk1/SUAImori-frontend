@@ -7,7 +7,7 @@ import {Club} from '../../../API/model/Club.tsx';
 import {jwtDecode} from "jwt-decode";
 import {TitleService} from "../../../API/TitleService";
 import {ClubService} from "../../../API/ClubService";
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from 'react-router-dom';
 import Button from "@mui/material/Button";
 import {Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle} from "@mui/material";
 
@@ -22,7 +22,7 @@ const ClubPage = () => {
     const [dialogMessage, setDialogMessage] = useState('');
 
     const [isMember, setIsMember] = useState(false);
-
+    const navigate = useNavigate();
     useEffect(() => {
         checkMembership().then(() => setIsLoading(false));
     }, []);
@@ -49,6 +49,10 @@ const checkMembership = async () => {
         try {
             const response = await ClubService.getClub(id, ["name", "description", "imageURL"]);
             const data = await response.json();
+            if(Object.keys(data).length === 0 && data.constructor === Object) {
+                navigate('/NotFound');
+                return;
+            }
             setClub(data);
             console.log(data);
             setIsLoading(false);
@@ -81,6 +85,7 @@ const checkMembership = async () => {
                 if (response.status === 200) {
                     setDialogMessage("Вы успешно покинули клуб");
                     setIsMember(false);
+                    navigate('/clubs');
                 } else {
                     setDialogMessage("Ошибка");
                 }

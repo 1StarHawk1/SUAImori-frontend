@@ -8,6 +8,7 @@ import ClubPage from "../components/pages/ClubPage/ClubPage";
 import AnimeListPage from "../components/pages/AnimeListPage/AnimeListPage";
 import MangaListPage from "../components/pages/MangaListPage/MangaListPage";
 import ClubListPage from "../components/pages/ClubListPage/ClubListPage";
+import NotFoundPage from '../components/pages/NotFoundPage/NotFoundPage';
 
 export const publicRoutes = [
     {path: '/signin', element: <SignIn />, exact: true},
@@ -20,6 +21,7 @@ export const publicRoutes = [
     {path: '/anime', element: <AnimeListPage />, exact: true},
     {path: '/manga', element: <MangaListPage />, exact: true},
     {path: '/clubs', element: <ClubListPage />, exact: true},
+    {path: '*', element: <NotFoundPage />}
 ]
 
 export const privateRoutes = [
