@@ -1,0 +1,19 @@
+.createTitlePage {
+    display: flex;
+    flex-direction: row;
+    padding: 0;
+    margin: 0;
+    height: 100vh;
+    overflow-y: hidden;
+}
+
+.formContainer {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+    margin-bottom: 100px;
+}
+
+.formElement {
+    margin: 10px 0;
+}

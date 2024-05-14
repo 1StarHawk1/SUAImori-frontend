@@ -8,9 +8,20 @@ import MenuBar from "../../blocks/MenuBar/MenuBar";
 import styles from './MainPage.module.css';
 import {useState} from "react";
 import NavBar from "../../blocks/NavBar/NavBar";
+import {jwtDecode} from "jwt-decode";
+import Button from "@mui/material/Button";
+import {Link} from "react-router-dom";
 
 const MainPage = () => {
     const [isOpen, setIsOpen] = useState(true);
+
+    const token = localStorage.getItem("token");
+    const decodedToken = token ? jwtDecode(token) : null;
+    let isAdmin = false;
+    if (!(token === null || decodedToken === null)) {
+        const role = decodedToken.role;
+        isAdmin = role.includes('ROLE_ADMIN') ?  true : false;
+    }
 
     const getAnimeIDs = async () => {
         try {
@@ -75,6 +86,13 @@ const MainPage = () => {
                 <div className={`${styles.content} ${isOpen ? styles.open : ''}`}>
                     <div className={styles.navbar}><NavBar/></div>
                     <div className={styles.list}>
+                        {isAdmin &&(
+                            <Link className={styles.MuiLink} to={"/createTitle"}>
+                                <Button
+                                    style={{backgroundColor: '#7A8B99', borderColor: '#393E41', marginTop: '20px',marginBottom:'20px', width:'100%'}
+                                    /*onClick={() => */} variant="contained">Добавить тайтл</Button>
+                            </Link>
+                        )}
                         <div className={styles.categoryTitle}>Аниме</div>
                         <CardList
                             getIDs={getAnimeIDs}

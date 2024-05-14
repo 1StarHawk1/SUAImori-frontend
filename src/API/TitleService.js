@@ -49,4 +49,9 @@ export class TitleService {
             throw new Error("getOngoingAnimeIds Error!");
         }
     }
+
+    static createTitle(form) {
+        return FetchService.post(`${serverApi}/title`, form);
+
+    }
 }

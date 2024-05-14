@@ -6,9 +6,19 @@ import styles from './AnimeListPage.module.css';
 import commonStyles from "../../../styles/commonStyles.module.css";
 import MenuBar from "../../blocks/MenuBar/MenuBar";
 import NavBar from "../../blocks/NavBar/NavBar";
+import Button from "@mui/material/Button";
+import {jwtDecode} from "jwt-decode";
+import {Link} from "react-router-dom";
 
 const AnimeListPage = () => {
     const [animeList, setAnimeList] = useState([]);
+    const token = localStorage.getItem("token");
+    const decodedToken = token ? jwtDecode(token) : null;
+    let isAdmin = false;
+    if (!(token === null || decodedToken === null)) {
+        const role = decodedToken.role;
+        isAdmin = role.includes('ROLE_ADMIN') ?  true : false;
+    }
 
     const fetchAnime = async () => {
         try {
@@ -39,6 +49,13 @@ const AnimeListPage = () => {
                         <NavBar/>
                     </div>
                     <div className={commonStyles.page}>
+                        {isAdmin &&(
+                            <Link className={styles.MuiLink} to={"/createTitle"}>
+                                <Button style={{backgroundColor: '#7A8B99', borderColor: '#393E41', margin:'20px',
+                                    marginLeft:'50px', width:'100%'}
+                                    /*onClick={() => */} variant="contained">Добавить тайтл</Button>
+                            </Link>
+                        )}
                         <div className={styles.animeListPage}>
                             {animeList.map(anime => (
                                 <TitleCard key={anime.id} title={anime} aspectRatio={3 / 4}
