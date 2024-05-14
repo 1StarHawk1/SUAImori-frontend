@@ -109,7 +109,12 @@ const ProfilePage = () => {
             alert('Введите имя списка');
             return;
         }
-        ListService.addList(listName);
+        ListService.addList(listName).then(r => {
+            getLists().then(r => {
+                console.log(r);
+            });
+        });
+
         handleClose();
     };
 
