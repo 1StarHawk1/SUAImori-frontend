@@ -22,10 +22,10 @@ export const publicRoutes = [
     {path: '/anime', element: <AnimeListPage />, exact: true},
     {path: '/manga', element: <MangaListPage />, exact: true},
     {path: '/clubs', element: <ClubListPage />, exact: true},
-    {path: '/createTitle', element: <CreateTitlePage />, exact: true},
     {path: '*', element: <NotFoundPage />}
 ]
 
 export const privateRoutes = [
+    {path: '/createTitle', element: <CreateTitlePage />, exact: true},
     ...publicRoutes
 ]
