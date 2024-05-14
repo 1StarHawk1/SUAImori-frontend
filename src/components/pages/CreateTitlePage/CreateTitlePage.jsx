@@ -1,12 +1,24 @@
 import React, {useState} from 'react';
-import {TextField, Radio, RadioGroup, FormControlLabel, FormControl, Select, MenuItem, Button} from '@mui/material';
+import {
+    TextField,
+    Radio,
+    RadioGroup,
+    FormControlLabel,
+    FormControl,
+    Select,
+    MenuItem,
+    Button,
+    Snackbar, Alert
+} from '@mui/material';
 import styles from './CreateTitlePage.module.css';
 import commonStyles from '../../../styles/commonStyles.module.css';
 import MenuBar from '../../blocks/MenuBar/MenuBar';
 import NavBar from '../../blocks/NavBar/NavBar';
 import {TitleService} from "../../../API/TitleService";
+import {useNavigate} from "react-router-dom";
 
 const CreateTitlePage = () => {
+    const navigate = useNavigate();
     const [form, setForm] = useState({
         name: '',
         description: '',
@@ -20,6 +32,19 @@ const CreateTitlePage = () => {
         franchise: {name: 'N/A'}, // Франшизы не реализованы, и пока что не планируются
         //TODO: Добавить возможность выбора франшизы, авторов, студий
     });
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+
+    const handleOpenSnackbar = () => {
+        setOpenSnackbar(true);
+    };
+
+    const handleCloseSnackbar = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        setOpenSnackbar(false);
+    };
 
     const handleChange = (e) => {
         setForm({
@@ -29,8 +54,13 @@ const CreateTitlePage = () => {
     };
 
     const handleSubmit = (event) => {
-        event.preventDefault();
-        TitleService.createTitle(form).then(r => console.log(r)).catch(e => console.log(e));
+        TitleService.createTitle(form).then(r => {
+            console.log(r);
+            handleOpenSnackbar();
+        })
+            .catch(e => console.log(e));;
+        navigate('/');
+
     };
 
     return (
@@ -98,6 +128,11 @@ const CreateTitlePage = () => {
                     </div>
                 </div>
             </div>
+            <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar}>
+                <Alert onClose={handleCloseSnackbar} severity="success" sx={{ width: '100%' }}>
+                    Тайтл успешно добавлен!
+                </Alert>
+            </Snackbar>
         </div>
     );
 };

@@ -37,6 +37,24 @@ export class FetchService {
         });
     }
 
+    static async delete(url, headers = {}, queryParams = {}, uriParams = {}) {
+        const queryString = new URLSearchParams(queryParams).toString();
+
+        Object.keys(uriParams).forEach(key => {
+            url = url.replace(`:${key}`, uriParams[key]);
+        });
+
+        return fetch(`${url}?${queryString}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                ...headers
+            }
+        }).then(response => {
+            return response;
+        });
+    }
+
     static async authPost(url, body = {}, headers = {}, queryParams = {}, uriParams = {}) {
         const token = localStorage.getItem('token');
         return this.post(url, body, {
@@ -68,4 +86,6 @@ export class FetchService {
             return response;
         });
     }
+
+
 }

@@ -54,4 +54,8 @@ export class TitleService {
         return FetchService.post(`${serverApi}/title`, form);
 
     }
+
+    static deleteTitle(id) {
+        return FetchService.delete(`${serverApi}/title/${id}`);
+    }
 }

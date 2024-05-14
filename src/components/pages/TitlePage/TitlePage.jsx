@@ -12,7 +12,7 @@ import {
     Alert,
     Dialog,
     DialogActions,
-    DialogContent,
+    DialogContent, DialogContentText,
     DialogTitle,
     FormControl,
     Modal,
@@ -40,6 +40,12 @@ const TitlePage = () => {
     const [selectedList, setSelectedList] = useState(null);
 
     const navigate = useNavigate();
+
+    let isAdmin = false;
+    if (!(token === null || decodedToken === null)) {
+        const role = decodedToken.role;
+        isAdmin = role.includes('ROLE_ADMIN') ?  true : false;
+    }
 
     useEffect(() => {
         getTitle().then(() => setIsLoading(false));
@@ -88,6 +94,18 @@ const TitlePage = () => {
         setSnackbarOpen(false);
     };
 
+    const [openDialog, setOpenDialog] = useState(false);
+    const handleOpenDialog = () => {
+        setOpenDialog(true);
+    };
+    const handleCloseDialog = () => {
+        setOpenDialog(false);
+    };
+    const handleConfirmDelete = () => {
+        TitleService.deleteTitle(id);
+        navigate(`/`);
+        handleCloseDialog();
+    };
 
     const getTitle = async () => {
         try {
@@ -132,7 +150,7 @@ const TitlePage = () => {
                                     }
                                 </h4>
                                 <h4>Дата выхода: {new Date(title.releaseDate).toLocaleDateString()}</h4>
-                                <h4>Дата завершения: {new Date(title.complitionDate).toLocaleDateString()}</h4>
+                                <h4>Дата завершения: {title.complitionDate ===0 ? new Date(title.complitionDate).toLocaleDateString() : "Не окончено"}</h4>
                                 <h4>Количество эпизодов: {title.itemCount}</h4>
                                 <h4>NSFW: {title.isNSFW ? 'Да' : 'Нет'}</h4>
 
@@ -142,7 +160,7 @@ const TitlePage = () => {
                         <div className={styles.buttons}>
                             {token && (
                                 <>
-                                    <Button style={{width : '300px', backgroundColor: '#85756E'}} variant="contained" onClick={openModal}>Добавить в список</Button><br/><br/>
+                                    <Button style={{width : '300px',marginBottom:'20px', backgroundColor: '#85756E'}} variant="contained" onClick={openModal}>Добавить в список</Button>
                                     <Dialog
                                         open={isModalOpen}
                                         onClose={closeModal}
@@ -173,6 +191,29 @@ const TitlePage = () => {
                                         </DialogActions>
                                     </Dialog>
                                     {/* ... */}
+                                </>
+                            )}
+                            {/*{isAdmin && (*/}
+                            {/*    <Button style={{width : '300px',marginBottom:'20px', backgroundColor: '#85756E'}} variant="contained" onClick={() => navigate(`/editTitle/${id}`)}>Редактировать</Button>*/}
+                            {/*)}*/}
+                            {isAdmin && (
+                                <>
+                                    <Button style={{width : '300px', backgroundColor: '#ff2400'}} variant="contained" onClick={handleOpenDialog}>Удалить</Button>
+                                    <Dialog
+                                        open={openDialog}
+                                        onClose={handleCloseDialog}
+                                    >
+                                        <DialogTitle>{"Подтвердите удаление"}</DialogTitle>
+                                        <DialogContent>
+                                            <DialogContentText>
+                                                Действительно ли вы хотите удалить данный тайтл? Это действие нельзя будет отменить.
+                                            </DialogContentText>
+                                        </DialogContent>
+                                        <DialogActions>
+                                            <Button onClick={handleCloseDialog}>Отмена</Button>
+                                            <Button style={{color:'red'}} onClick={handleConfirmDelete}>Удалить</Button>
+                                        </DialogActions>
+                                    </Dialog>
                                 </>
                             )}
                         </div>
