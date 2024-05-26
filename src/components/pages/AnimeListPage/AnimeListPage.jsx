@@ -44,16 +44,16 @@ const AnimeListPage = () => {
                 <div className={commonStyles.menubar}>
                     <MenuBar/>
                 </div>
-                <div className={`${commonStyles.content} `}>
+                <div className={styles.content}>
                     <div>
                         <NavBar/>
                     </div>
                     <div className={commonStyles.page}>
                         {isAdmin &&(
                             <Link className={styles.MuiLink} to={"/createTitle"}>
-                                <Button style={{backgroundColor: '#7A8B99', borderColor: '#393E41', margin:'20px',
-                                    marginLeft:'50px', width:'100%'}
-                                    /*onClick={() => */} variant="contained">Добавить тайтл</Button>
+                                <Button
+                                    style={{backgroundColor: '#7A8B99', borderColor: '#393E41', marginTop: '20px',marginBottom:'20px', width:'100%'}
+                                        /*onClick={() => */} variant="contained">Добавить тайтл</Button>
                             </Link>
                         )}
                         <div className={styles.animeListPage}>

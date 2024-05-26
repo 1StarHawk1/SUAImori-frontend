@@ -21,3 +21,9 @@
     height: 100vh;
     overflow-y: hidden;
 }
+
+.content{
+    flex-grow: 1;
+    padding-bottom: 70px;
+    overflow-y: hidden;
+}

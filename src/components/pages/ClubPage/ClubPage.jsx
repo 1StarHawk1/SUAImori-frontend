@@ -23,9 +23,9 @@ const ClubPage = () => {
 
     const [isMember, setIsMember] = useState(false);
     const navigate = useNavigate();
-    useEffect(() => {
+    /*useEffect(() => {
         checkMembership().then(() => setIsLoading(false));
-    }, []);
+    }, []);*/
 
     const handleClose = () => {
         setOpen(false);
@@ -35,27 +35,28 @@ const ClubPage = () => {
         getClub().then(() => setIsLoading(false));
     }, []);
 
-const checkMembership = async () => {
-    try {
-        const response = await ClubService.checkMembership(id);
-        const isMember = await response.json();
-        setIsMember(isMember);
-    } catch (e) {
-        console.error(e);
-    }
-};
+    const checkMembership = async () => {
+        try {
+            if(token === null){
+                setIsMember(false);
+                return;
+            }
+            const response = await ClubService.checkMembership(id);
+            const isMember = await response.json();
+            setIsMember(isMember);
+        } catch (e) {
+            console.error(e);
+        }
+    };
 
     const getClub = async () => {
         try {
             const response = await ClubService.getClub(id, ["name", "description", "imageURL"]);
             const data = await response.json();
-            if(Object.keys(data).length === 0 && data.constructor === Object) {
-                navigate('/NotFound');
-                return;
-            }
+
             setClub(data);
             console.log(data);
-            setIsLoading(false);
+            await checkMembership();
         } catch (e) {
             console.error(e);
         }
@@ -78,8 +79,8 @@ const checkMembership = async () => {
         }
     };
 
-    const leaveClub = () =>{
-        return async() => {
+    const leaveClub = () => {
+        return async () => {
             try {
                 const response = await ClubService.leaveClub(club.name);
                 if (response.status === 200) {
@@ -123,7 +124,7 @@ const checkMembership = async () => {
                             {token && (
                                 <>
                                     {isMember ? (
-                                        <Button  style={{width: '350px', backgroundColor: '#7A8B99'}} variant="contained"
+                                        <Button style={{width: '350px', backgroundColor: '#7A8B99'}} variant="contained"
                                                 onClick={leaveClub()}>Покинуть клуб</Button>
                                     ) : (
                                         <Button style={{width: '350px', backgroundColor: '#7A8B99'}} variant="contained"

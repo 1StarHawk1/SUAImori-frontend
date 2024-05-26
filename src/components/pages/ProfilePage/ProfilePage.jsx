@@ -30,11 +30,11 @@ const ProfilePage = () => {
     const {username} = useParams();
     const isCurrentUser = decodedToken && decodedToken.sub === username;
     const [newUserInfo, setNewUserInfo] = useState({
-        nickname: '',
-        description: '',
-        avatarURL: '',
-        profileWallpaperURL: '',
-        email: ''
+        nickname: ' ',
+        description: ' ',
+        avatarURL: ' ',
+        profileWallpaperURL: ' ',
+        email: ' '
     });
 
     const navigate = useNavigate();
